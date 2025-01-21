@@ -5,8 +5,6 @@ import './App.css'
 import Labs
  from './Labs'
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
       <Labs />
