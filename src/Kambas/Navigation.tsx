@@ -41,7 +41,7 @@ export default function KambasNavigation() {
       </NavLink>
 
       <NavLink
-        to="/Kambas/Courses/*"
+        to="/Kambas/Courses/1234/Home"
         id="wd-course-link"
         className="list-group-item"
       >

@@ -1,17 +1,20 @@
+import { HashRouter, Navigate, Route, Routes } from 'react-router'
 import './App.css'
 import Labs
  from './Labs'
-<<<<<<< Updated upstream
-=======
 import Kambas from './Kambas'
-import "bootstrap/dist/css/bootstrap.min.css";
-
->>>>>>> Stashed changes
 function App() {
   return (
-    <div>
-      <Labs />
-    </div>
+    <HashRouter>
+      <div>
+        <Routes>
+         <Route path="/" element={<Navigate to="/Kambas" />} />
+          <Route path="/Labs/*" element={<Labs />} />
+          <Route path="/Kambas/*" element={<Kambas />} />
+        </Routes>
+      </div>
+    </HashRouter>
+    
   )
 }
 
