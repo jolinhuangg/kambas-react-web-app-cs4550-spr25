@@ -5,7 +5,7 @@ import Borders from "./Borders.tsx";
 import Padding from "./Padding.tsx";
 import Margins from "./Margins.tsx";
 import Corners from "./Corners.tsx";
-import Dimensions from "./Dimensions.tsx";
+import Dimensions from "./DImensions.tsx";
 import Positions from "./Positions.tsx";
 import Zindex from "./Zindex.tsx";
 import Float from "./Float.tsx";
