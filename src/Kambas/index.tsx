@@ -1,0 +1,21 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import Account from "./Account";
+import Courses from "./Courses";
+import Dashboard from "./Dashboard";
+import KambasNavigation from "./Navigation";
+
+export default function Kambas() {
+  return (
+    <div id="wd-kambas">
+      <KambasNavigation />
+      <div className="wd-main-content-offset p-3">
+        <Routes>
+          <Route path="/" element={<Navigate to="Account" />} />
+          <Route path="/Account/*" element={<Account />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Courses/:cid/*" element={<Courses />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}

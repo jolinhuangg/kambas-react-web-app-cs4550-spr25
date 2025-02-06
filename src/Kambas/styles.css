@@ -1,0 +1,112 @@
+#wd-kambas-navigation {
+  width: 110px;
+}
+
+#wd-kambas-navigation .list-group-item {
+  width: 110px;
+  text-align: center;
+  border: 0;
+  background-color: black;
+  color: white;
+  font-size: 15px;
+  font-weight: 250;
+}
+
+#wd-kambas-navigation .fs-1 {
+  color: #c8102e;
+}
+
+#wd-kambas-navigation .list-group-item.active {
+  background-color: white !important;
+  color: #c8102e !important;
+}
+
+#wd-courses-navigation a {
+  color: #c8102e;
+  text-decoration: none;
+}
+
+#wd-courses-navigation a:hover {
+  text-decoration: underline;
+}
+
+#wd-courses-navigation a.active {
+  color: black;
+}
+
+#wd-account-link.active svg {
+  color: gray !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media (min-width: 768px) {
+  #wd-kambas .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+
+.wd-assignment-link {
+  color: black;
+  text-decoration: none;
+}
+
+.wd-assignment-link:hover {
+  text-decoration: underline;
+} 
+
+#wd-search-assignment {
+  width: 40%; 
+}
+
+#wd-assignment-description {
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: none; 
+}
+
+#online-entry-options .form-check {
+  margin-bottom: 15px; 
+}
+
+/* Base styles for the navigation links */
+#wd-account-navigation a{
+  color: #c8102e;              /* Link text is red by default */
+  text-decoration: none;   /* No underline by default */
+  transition: text-decoration 0.2s; /* Smooth transition for hover effect */
+}
+
+/* Underline on hover */
+#wd-account-navigation a:hover {
+  text-decoration: underline;
+}
+
+/* Active link styles */
+#wd-account-navigation a.active {
+  color: black;            /* Active link becomes black */
+}
