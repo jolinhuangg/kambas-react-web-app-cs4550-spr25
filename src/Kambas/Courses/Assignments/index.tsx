@@ -8,8 +8,32 @@ import AssignmentIcons from "./AssignmentIcons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
+import * as db from "../../Database";
+import { useParams } from "react-router-dom";
+
+function formatDateNative(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric"
+  });
+}
+
+function convert24to12(timeStr: string) {
+  const [hourStr, minuteStr] = timeStr.split(':');
+  let hour = parseInt(hourStr, 10);
+  const minute = minuteStr;
+  const period = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12;
+  if (hour === 0) {
+    hour = 12;
+  }
+  return `${hour}:${minute}${period}`;
+}
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
   return (
     <Container className="ms-3" id="wd-assignments">
       <div className="d-flex justify-content-between mb-4">
@@ -30,95 +54,42 @@ export default function Assignments() {
             ASSIGNMENTS <AssignmentControlButton />
           </div>
 
-          <ListGroup className="wd-lessons rounded-0">
-            <ListGroup.Item className="wd-lesson  ps-1">
-              <div className="d-flex align-items-center">
-                <AssignmentIcons />
-                <div className="ms-4 flex-grow-1">
-                  <a
-                    href="#/Kambas/Courses/1234/Assignments/123/"
-                    className="wd-assignment-link"
-                  >
-                    A1
-                  </a>
-                  <div className="small">
-                    <span className="text-danger fs-6"> Multiple Modules </span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fw-bold fs-6">
-                      {" "}
-                      Not available until{" "}
-                    </span>
-                    <span className="text-muted fs-6"> May 6 at 12:00am</span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fw-bold fs-6"> Due </span>
-                    <span className="text-muted fs-6"> May 13 at 11:59pm</span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fs-6"> 100 points </span>
-                  </div>
-                </div>
-                <LessonControlButtons />
-              </div>
-            </ListGroup.Item>
+          <ul id="wd-assignments" className="list-group rounded-0">
+        {assignments
+          .filter((assignment: any) => assignment.course === cid)
+          .map((assignment: any) => (
+            
+          <li className="wd-assignment list-group-item p-2 border-gray">
+            <div className="d-flex align-items-center">
+              <AssignmentIcons />
+              <div className="ms-4 flex-grow-1">
+                <a
+                  href={`#/Kambas/Courses/${assignment.course}/Assignments/${assignment._id}/`}
+                  className="wd-assignment-link"
+                >
+                  {assignment.title}
+                </a>
 
-            <ListGroup.Item className="wd-lesson  ps-1">
-              <div className="d-flex align-items-center">
-                <AssignmentIcons />
-                <div className="ms-4 flex-grow-1">
-                  <a
-                    href="#/Kambas/Courses/1234/Assignments/123/"
-                    className="wd-assignment-link"
-                  >
-                    {" "}
-                    A2{" "}
-                  </a>
-                  <div className="small">
+                <div className="small">
                     <span className="text-danger fs-6"> Multiple Modules </span>
                     <span className="text-muted"> | </span>
                     <span className="text-muted fw-bold fs-6">
                       {" "}
                       Not available until{" "}
                     </span>
-                    <span className="text-muted fs-6"> May 13 at 12:00am</span>
+                    <span className="text-muted fs-6"> {formatDateNative(assignment.available.split("T")[0])} at {convert24to12(assignment.available.split("T")[1])} </span>
                     <span className="text-muted"> | </span>
                     <span className="text-muted fw-bold fs-6"> Due </span>
-                    <span className="text-muted fs-6"> May 20 at 11:59pm</span>
+                    <span className="text-muted fs-6"> {formatDateNative(assignment.duedate.split("T")[0])} at {convert24to12(assignment.available.split("T")[1])} </span>
                     <span className="text-muted"> | </span>
-                    <span className="text-muted fs-6"> 100 points </span>
+                    <span className="text-muted fs-6"> {assignment.points} points </span>
                   </div>
-                </div>
-                <LessonControlButtons />
               </div>
-            </ListGroup.Item>
-
-            <ListGroup.Item className="wd-lesson  ps-1">
-              <div className="d-flex align-items-center">
-                <AssignmentIcons />
-                <div className="ms-4 flex-grow-1">
-                  <a
-                    href="#/Kambas/Courses/1234/Assignments/123/"
-                    className="wd-assignment-link"
-                  >
-                    A3
-                  </a>
-                  <div className="small">
-                    <span className="text-danger fs-6"> Multiple Modules </span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fw-bold fs-6">
-                      {" "}
-                      Not available until{" "}
-                    </span>
-                    <span className="text-muted fs-6"> May 20 at 12:00am</span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fw-bold fs-6"> Due </span>
-                    <span className="text-muted fs-6"> May 27 at 11:59pm</span>
-                    <span className="text-muted"> | </span>
-                    <span className="text-muted fs-6"> 100 points </span>
-                  </div>
-                </div>
-                <LessonControlButtons />
-              </div>
-            </ListGroup.Item>
-          </ListGroup>
+              <LessonControlButtons />
+            </div>
+          </li>
+          ))}
+          </ul>
         </ListGroup.Item>
       </ListGroup>
     </Container>

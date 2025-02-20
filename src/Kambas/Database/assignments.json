@@ -1,0 +1,11 @@
+[
+    { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "available": "2025-05-06T00:00", "duedate": "2025-05-13T23:59", "points": 100, "description": "A Description for Propulsion Assignment"},
+    { "_id": "A102", "title": "Combustion Analysis", "course": "RS101", "available": "2025-05-13T23:59", "duedate": "2025-05-20T23:59", "points": 100, "description": "A Description for Combustion Analysis" },
+    { "_id": "A103", "title": "Nozzle Design Project", "course": "RS101", "available": "2025-05-20T23:59", "duedate": "2025-05-27T23:59", "points": 100, "description": "A Description for Nozzle Design Project" },
+    { "_id": "A201", "title": "Aerodynamics Quiz", "course": "RS102", "available": "2025-05-06T00:00", "duedate": "2025-05-13T23:59", "points": 100, "description": "A Description for Aerodynamics Quiz" },
+    { "_id": "A202", "title": "Flow Analysis", "course": "RS102", "available": "2025-05-13T23:59", "duedate": "2025-05-20T23:59", "points": 100, "description": "A Description for Flow Analysis" },
+    { "_id": "A203", "title": "Heating Analysis", "course": "RS102", "available": "2025-05-20T23:59", "duedate": "2025-05-27T23:59", "points": 100, "description": "A Description for Heating Analysis" },
+    { "_id": "A301", "title": "Structural Design Task", "course": "RS103", "available": "2025-05-13T23:59", "duedate": "2025-05-20T23:59", "points": 100, "description": "A Description for Structural Design Task" },
+    { "_id": "A302", "title": "Orbital Calculations", "course": "RS103", "available": "2025-05-20T23:59", "duedate": "2025-05-27T23:59", "points": 100, "description": "A Description for Orbital Calculations" },
+    { "_id": "A303", "title": "Systems Engineering Exam", "course": "RS103", "available": "2025-05-20T23:59", "duedate": "2025-05-27T23:59", "points": 100, "description": "A Description for Systems Engineering Exam" }
+  ]

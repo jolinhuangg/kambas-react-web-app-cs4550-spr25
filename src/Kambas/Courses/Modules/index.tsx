@@ -1,10 +1,14 @@
 import ModulesControls from "./ModulesControls";
-import { Container, ListGroup } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "./LessonControlButtons";
 import ModulesControlButton from "./ModulesControlButton";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 
 export default function Modules() {
+  const { cid } = useParams();
+  const modules = db.modules;
   return (
     <Container>
       <ModulesControls />
@@ -12,53 +16,21 @@ export default function Modules() {
       <br />
       <br />
       <br />
-      <ListGroup className="rounded-0" id="wd-modules">
-        <ListGroup.Item className="wd-module p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary">
-            <BsGripVertical className="me-2 fs-3" /> Week 1{" "}
-            <ModulesControlButton />
-          </div>
-          <ListGroup className="wd-lessons rounded-0">
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" /> LEARNING OBJECTIVES{" "}
-              <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" /> Introduction to the
-              course <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              Learn what is Web Development <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LESSON 1 <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LESSON 2 <LessonControlButtons />
-            </ListGroup.Item>
-          </ListGroup>
-        </ListGroup.Item>
-        <ListGroup.Item className="wd-module p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary"> Week 2 </div>
-          <ListGroup className="wd-lessons rounded-0">
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LEARNING OBJECTIVES <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LESSON 1 <LessonControlButtons />
-            </ListGroup.Item>
-            <ListGroup.Item className="wd-lesson p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LESSON 2 <LessonControlButtons />
-            </ListGroup.Item>
-          </ListGroup>
-        </ListGroup.Item>
-      </ListGroup>
-    </Container>
+      <ul id="wd-modules" className="list-group rounded-0">
+        {modules
+          .filter((module: any) => module.course === cid)
+          .map((module: any) => (
+          <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+            <div className="wd-title p-3 ps-2 bg-secondary">
+              <BsGripVertical className="me-2 fs-3" /> {module.name} <ModulesControlButton />
+            </div>
+            {module.lessons && (
+              <ul className="wd-lessons list-group rounded-0">
+                {module.lessons.map((lesson: any) => (
+                  <li className="wd-lesson list-group-item p-3 ps-1">
+                    <BsGripVertical className="me-2 fs-3" /> {lesson.name} <LessonControlButtons />
+                  </li>
+                ))}</ul>)}</li>))}</ul>
+      </Container>
   );
 }

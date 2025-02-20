@@ -3,82 +3,39 @@ import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import './styles.css';
+import { ListGroup } from "react-bootstrap";
 
 export default function KambasNavigation() {
+  const { pathname } = useLocation();
+  const links = [
+    { label: "Dashboard", path: "/Kambas/Dashboard", icon: AiOutlineDashboard },
+    { label: "Courses",   path: "/Kambas/Dashboard", icon: LiaBookSolid },
+    { label: "Calendar",  path: "/Kambas/Calendar",  icon: FaCalendarAlt },
+    { label: "Inbox",     path: "/Kambas/Inbox",     icon: FaInbox },
+    { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
+  ];
   return (
-    <div
-      id="wd-kambas-navigation"
-      className="list-group rounded-0 position-fixed
-       bottom-0 top-0 d-none d-md-block bg-black z-2"
-    >
-      <a
-        id="wd-neu-link"
-        target="_blank"
-        href="https://www.northeastern.edu/"
-        className="list-group-item"
-      >
-        <img src="/images/NEU.png" width="75px" />
-      </a>
-      <NavLink
-        to="/Kambas/Account"
-        id="wd-account-link"
-        className="list-group-item"
-      >
-        <FaRegCircleUser className="fs-1 text-white" />
+<ListGroup id="wd-kambas-navigation" style={{width: 120}}
+         className="rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2">
+      <ListGroup.Item id="wd-neu-link" target="_blank" href="https://www.northeastern.edu/"
+        action className="bg-black border-0 text-center">
+        <img src="/images/NEU.png" width="75px" /></ListGroup.Item>
+      <ListGroup.Item as={Link} to="/Kambas/Account" className={`text-center border-0 bg-black
+            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
+        <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
         <br />
-        Account{" "}
-      </NavLink>
-
-      <NavLink
-        to="/Kambas/Dashboard"
-        id="wd-dashboard-link"
-        className="list-group-item"
-      >
-        <AiOutlineDashboard className="fs-1" />
-        <br />
-        Dashboard{" "}
-      </NavLink>
-
-      <NavLink
-        to="/Kambas/Courses/1234/Home"
-        id="wd-course-link"
-        className="list-group-item"
-      >
-        <LiaBookSolid className="fs-1" />
-        <br />
-        Courses{" "}
-      </NavLink>
-
-      <NavLink
-        to="/Kambas/Calendar"
-        id="wd-calendar-link"
-        className="list-group-item"
-      >
-        <FaCalendarAlt className="fs-1" />
-        <br />
-        Calendar{" "}
-      </NavLink>
-
-      <NavLink
-        to="/Kambas/Inbox"
-        id="wd-inbox-link"
-        className="list-group-item"
-      >
-        <FaInbox className="fs-1" />
-        <br />
-        Inbox{" "}
-      </NavLink>
-
-      <NavLink
-        to="/Labs"
-        id="wd-labs-link"
-        className="list-group-item"
-      >
-        <LiaCogSolid className="fs-1" />
-        <br />
-        Labs{" "}
-      </NavLink>
-    </div>
+        Account
+      </ListGroup.Item>
+      {links.map((link) => (
+        <ListGroup.Item key={link.path} as={Link} to={link.path} className={`bg-black text-center border-0
+              ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}>
+          {link.icon({ className: "fs-1 text-danger"})}
+          <br />
+          {link.label}
+        </ListGroup.Item>
+      ))}
+    </ListGroup>
   );
 }
