@@ -3,7 +3,7 @@ import Account from "./Account";
 import Courses from "./Courses";
 import Dashboard from "./Dashboard";
 import KambasNavigation from "./Navigation";
-//test
+
 export default function Kambas() {
   return (
     <div id="wd-kambas">
