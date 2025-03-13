@@ -23,15 +23,13 @@ export default function Dashboard({
   const isFaculty = currentUser?.role === "FACULTY";
   const [enrollment, setEnrollment] = useState(false);
 
-  const visibleCourses =
-    enrollment
-      ? courses
-      : courses.filter((course) =>
-          db.enrollments.some(
-            (enr) =>
-              enr.course === course._id && enr.user === currentUser._id
-          )
-        );
+  const visibleCourses = enrollment
+    ? courses
+    : courses.filter((course) =>
+        db.enrollments.some(
+          (enr) => enr.course === course._id && enr.user === currentUser._id
+        )
+      );
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -70,7 +68,7 @@ export default function Dashboard({
             />
           </h5>
           <hr />
-          </div>
+        </div>
       )}
       {!isFaculty && (
         <h5>
@@ -89,10 +87,9 @@ export default function Dashboard({
       </h2>{" "}
       <hr />
       {!enrollment && (
-      <div className="row" id="wd-dashboard-courses">
-        <div className="row row-cols-1 row-cols-md-5 g-4">
-          {visibleCourses
-            .map((course) => (
+        <div className="row" id="wd-dashboard-courses">
+          <div className="row row-cols-1 row-cols-md-5 g-4">
+            {visibleCourses.map((course) => (
               <div key={course._id} className="col" style={{ width: "300px" }}>
                 <Card>
                   <Link
@@ -149,15 +146,10 @@ export default function Dashboard({
                 </Card>
               </div>
             ))}
+          </div>
         </div>
-      </div>
       )}
-      {enrollment && (
-        <EnrollmentOptions
-          addNewCourse={addNewCourse}
-          deleteCourse={deleteCourse}
-        />
-      )}
+      {enrollment && <EnrollmentOptions />}
     </div>
   );
 }

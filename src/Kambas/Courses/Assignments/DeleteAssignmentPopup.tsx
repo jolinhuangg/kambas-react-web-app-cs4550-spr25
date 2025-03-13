@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
 
-const DeleteAssignmentPopup = ({ assignmentId, onClose }) => {
+const DeleteAssignmentPopup = ({ assignmentId, onClose }: { assignmentId: string; onClose: () => void }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
