@@ -1,10 +1,10 @@
 import { ListGroup, Container } from "react-bootstrap";
 import AssignmentControls from "./AssignmentControls";
+import AssignmentIcons from "./AssignmentIcons";
 import AssignmentControlButton from "./AssignmentControlButton";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import AssignmentIcons from "./AssignmentIcons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
