@@ -1,21 +1,24 @@
-import { HashRouter, Navigate, Route, Routes } from 'react-router'
-import './App.css'
-import Labs
- from './Labs'
-import Kambas from './Kambas'
+import { HashRouter, Navigate, Route, Routes } from "react-router";
+import "./App.css";
+import Labs from "./Labs";
+import Kambas from "./Kambas";
+import store from "./Kambas/store";
+import { Provider } from "react-redux";
+
 function App() {
   return (
     <HashRouter>
-      <div>
-        <Routes>
-         <Route path="/" element={<Navigate to="/Kambas" />} />
-          <Route path="/Labs/*" element={<Labs />} />
-          <Route path="/Kambas/*" element={<Kambas />} />
-        </Routes>
-      </div>
+      <Provider store={store}>
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate to="/Kambas" />} />
+            <Route path="/Labs/*" element={<Labs />} />
+            <Route path="/Kambas/*" element={<Kambas />} />
+          </Routes>
+        </div>
+      </Provider>
     </HashRouter>
-    
-  )
+  );
 }
 
-export default App
+export default App;

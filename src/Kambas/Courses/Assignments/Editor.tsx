@@ -8,11 +8,53 @@ import {
 } from "react-bootstrap";
 import AssignmentEditorFinalizeButtons from "./AssignmentEditorFinalizeButtons";
 import * as db from "../../Database";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "./reducer";
+import { useState } from "react";
 
 export default function AssignmentEditor() {
   const { aid } = useParams();
   const assignments = db.assignments;
+  const { cid } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(0);
+  const [duedate, setDuedate] = useState("");
+  const [available, setAvailable] = useState("");
+
+  const handleSave = () => {
+    if (aid) {
+      const updatedAssignment = {
+        _id: aid,
+        title,
+        course: cid,
+        available,
+        duedate,
+        points,
+        description,
+      };
+      dispatch(updateAssignment(updatedAssignment));
+    } else {
+      const newAssignment = {
+        title,
+        course: cid,
+        available,
+        duedate,
+        points,
+        description,
+      };
+      dispatch(addAssignment(newAssignment));
+    }
+    navigate(`/Kambas/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => {
+    navigate(`/Kambas/Courses/${cid}/Assignments`);
+  }
   return (
     <div>
       {assignments
@@ -25,7 +67,10 @@ export default function AssignmentEditor() {
           >
             <label htmlFor="wd-name">Assignment Name</label>
             <InputGroup id="wd-name">
-              <FormControl defaultValue={assignment.title} />
+              <FormControl
+                defaultValue={assignment.title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </InputGroup>
             <Form.Group className="mt-3 mb-3">
               <Form.Control
@@ -33,6 +78,7 @@ export default function AssignmentEditor() {
                 rows={12}
                 id="wd-assignment-description"
                 defaultValue={assignment.description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
 
@@ -41,7 +87,12 @@ export default function AssignmentEditor() {
                 Points
               </Form.Label>
               <Col sm={9}>
-                <Form.Control type="number" defaultValue={assignment.points} />
+                <Form.Control
+                  type="number"
+                  defaultValue={assignment.points}
+                  onChange={(e) => setPoints(Number(e.target.value))}
+                  placeholder="Enter points"
+                />
               </Col>
             </Form.Group>
 
@@ -115,6 +166,7 @@ export default function AssignmentEditor() {
                       className="mb-3"
                       type="datetime-local"
                       defaultValue={assignment.duedate}
+                      onChange={(e) => setDuedate(e.target.value)}
                     />
                   </InputGroup>
 
@@ -127,6 +179,7 @@ export default function AssignmentEditor() {
                         <Form.Control
                           type="datetime-local"
                           defaultValue={assignment.available}
+                          onChange={(e) => setAvailable(e.target.value)}
                         />
                       </InputGroup>
                     </Col>
@@ -137,6 +190,7 @@ export default function AssignmentEditor() {
                         <Form.Control
                           type="datetime-local"
                           defaultValue={assignment.duedate}
+                          onChange={(e) => setDuedate(e.target.value)}
                         />
                       </InputGroup>
                     </Col>
@@ -145,7 +199,7 @@ export default function AssignmentEditor() {
               </Col>
             </Form.Group>
             <hr />
-            <AssignmentEditorFinalizeButtons />
+            <AssignmentEditorFinalizeButtons onSave={handleSave} onCancel={handleCancel} />
           </Container>
         ))}
     </div>
