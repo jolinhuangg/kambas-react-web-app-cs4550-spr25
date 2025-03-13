@@ -1,16 +1,17 @@
-import { ListGroup, Container } from "react-bootstrap";
+import { ListGroup, Container, InputGroup, FormControl } from "react-bootstrap";
 import AssignmentControls from "./AssignmentControls";
 import AssignmentIcons from "./AssignmentIcons";
 import AssignmentControlButton from "./AssignmentControlButton";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BsGripVertical } from "react-icons/bs";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { InputGroup, FormControl } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
-import * as db from "../../Database";
+import { FaSearch, FaTrash } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import GreenCheckmark from "../Modules/GreenCheckmark";
+import { IoEllipsisVertical } from "react-icons/io5";
+import DeleteAssignmentPopup from "./DeleteAssignmentPopup";
+import { useState } from "react";
 
 function formatDateNative(dateString: string): string {
   const date = new Date(dateString);
@@ -21,6 +22,7 @@ function formatDateNative(dateString: string): string {
 }
 
 function convert24to12(timeStr: string) {
+  if (!timeStr) return "";
   const [hourStr, minuteStr] = timeStr.split(":");
   let hour = parseInt(hourStr, 10);
   const minute = minuteStr;
@@ -34,9 +36,12 @@ function convert24to12(timeStr: string) {
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
+  const assignments = useSelector((state: any) => state.assignmentReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
+
+  const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(null);
+
   return (
     <Container className="ms-3" id="wd-assignments">
       <div className="d-flex justify-content-between mb-4">
@@ -55,15 +60,17 @@ export default function Assignments() {
           <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             <IoMdArrowDropdown className="me-2 fs-3" />
-            ASSIGNMENTS 
-            {isFaculty && <AssignmentControlButton /> }
+            ASSIGNMENTS
+            {isFaculty && <AssignmentControlButton />}
           </div>
 
           <ul id="wd-assignments" className="list-group rounded-0">
-            {assignments
-              .filter((assignment: any) => assignment.course === cid)
+            {assignments.filter((assignment: any) => assignment.course === cid)
               .map((assignment: any) => (
-                <li className="wd-assignment list-group-item p-2 border-gray">
+                <li
+                  key={assignment._id}
+                  className="wd-assignment list-group-item p-2 border-gray"
+                >
                   <div className="d-flex align-items-center">
                     <AssignmentIcons />
                     <div className="ms-4 flex-grow-1">
@@ -76,44 +83,60 @@ export default function Assignments() {
 
                       <div className="small">
                         <span className="text-danger fs-6">
-                          {" "}
-                          Multiple Modules{" "}
+                          Multiple Modules
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fw-bold fs-6">
-                          {" "}
-                          Not available until{" "}
+                          Not available until
                         </span>
                         <span className="text-muted fs-6">
-                          {" "}
                           {formatDateNative(
                             assignment.available.split("T")[0]
                           )}{" "}
-                          at {convert24to12(assignment.available.split("T")[1])}{" "}
+                          at{" "}
+                          {convert24to12(assignment.available.split("T")[1] || "00:00")}
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fw-bold fs-6"> Due </span>
                         <span className="text-muted fs-6">
-                          {" "}
                           {formatDateNative(
                             assignment.duedate.split("T")[0]
                           )}{" "}
-                          at {convert24to12(assignment.available.split("T")[1])}{" "}
+                          at{" "}
+                          {convert24to12(assignment.duedate.split("T")[1] || "00:00")}
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fs-6">
-                          {" "}
-                          {assignment.points} points{" "}
+                          {assignment.points} points
                         </span>
                       </div>
                     </div>
-                    {isFaculty && <LessonControlButtons /> }
+                    {isFaculty && (
+                      <div className="float-end">
+                        <FaTrash
+                          className="text-danger me-2 mb-1"
+                          onClick={() =>
+                            setDeleteAssignmentId(assignment._id)
+                          }
+                          style={{ cursor: "pointer" }}
+                        />
+                        <GreenCheckmark />
+                        <IoEllipsisVertical className="fs-4" />
+                      </div>
+                    )}
                   </div>
                 </li>
               ))}
           </ul>
         </ListGroup.Item>
       </ListGroup>
+
+      {deleteAssignmentId && (
+        <DeleteAssignmentPopup
+          assignmentId={deleteAssignmentId}
+          onClose={() => setDeleteAssignmentId(null)}
+        />
+      )}
     </Container>
   );
 }

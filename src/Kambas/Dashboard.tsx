@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
-import * as db from "./Database";
+//import * as db from "./Database";
 import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
+import { useState } from "react";
+import EnrollmentOptions from "./DashboardTools/EnrollmentOptions";
 export default function Dashboard({
   courses,
   course,
@@ -18,8 +20,10 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = db;
+  //const { enrollments } = db;
   const isFaculty = currentUser?.role === "FACULTY";
+  const enrollments = useSelector((state: any) => state.enrollmentReducer.enrollments);
+  const [enrollment, setEnrollment] = useState(false);
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -60,22 +64,33 @@ export default function Dashboard({
           <hr />
         </>
       )}
-      <hr />
+      {!isFaculty && (
+        <h5>
+          <button
+            className="btn btn-primary float-end"
+            id="wd-add-new-course-click"
+            onClick={(e) => setEnrollment(!enrollment)}
+          >
+            {" "}
+            Enrollment{" "}
+          </button>
+        </h5>
+      )}
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})
       </h2>{" "}
       <hr />
+      {!enrollment && (
       <div className="row" id="wd-dashboard-courses">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {courses
-            .filter((course) =>
-              enrollments.some(
-                (enrollment) =>
-                  enrollment.user === currentUser._id &&
-                  enrollment.course === course._id
-              )
-            )
-
+              .filter((course) =>
+                enrollments.some(
+                  (enrollment: { user: any; course: any; }) =>
+                    enrollment.user === currentUser._id &&
+                    enrollment.course === course._id
+                   ))
+          
             .map((course) => (
               <div key={course._id} className="col" style={{ width: "300px" }}>
                 <Card>
@@ -135,6 +150,13 @@ export default function Dashboard({
             ))}
         </div>
       </div>
+      )}
+      {enrollment && (
+        <EnrollmentOptions
+          addNewCourse={addNewCourse}
+          deleteCourse={deleteCourse}
+        />
+      )}
     </div>
   );
 }
