@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-//import * as db from "./Database";
 import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
 import { useState } from "react";
@@ -20,15 +19,13 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  //const { enrollments } = db;
   const isFaculty = currentUser?.role === "FACULTY";
-  const enrollments = useSelector((state: any) => state.enrollmentReducer.enrollments);
   const [enrollment, setEnrollment] = useState(false);
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       {isFaculty && (
-        <>
+        <div>
           <h5>
             New Course
             <Button
@@ -62,18 +59,18 @@ export default function Dashboard({
             />
           </h5>
           <hr />
-        </>
+          </div>
       )}
       {!isFaculty && (
         <h5>
-          <button
+          <Button
             className="btn btn-primary float-end"
             id="wd-add-new-course-click"
             onClick={(e) => setEnrollment(!enrollment)}
           >
             {" "}
             Enrollment{" "}
-          </button>
+          </Button>
         </h5>
       )}
       <h2 id="wd-dashboard-published">
@@ -84,13 +81,6 @@ export default function Dashboard({
       <div className="row" id="wd-dashboard-courses">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {courses
-              .filter((course) =>
-                enrollments.some(
-                  (enrollment: { user: any; course: any; }) =>
-                    enrollment.user === currentUser._id &&
-                    enrollment.course === course._id
-                   ))
-          
             .map((course) => (
               <div key={course._id} className="col" style={{ width: "300px" }}>
                 <Card>

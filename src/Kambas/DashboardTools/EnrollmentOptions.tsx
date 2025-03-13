@@ -1,9 +1,10 @@
+
 import * as db from "../Database";
 import { useSelector, useDispatch } from "react-redux";
 import { createEnrollment, deleteEnrollment } from "./reducer";
 import { useEffect, useState } from "react";
 
-export default function Enrollments({
+export default function EnrollmentsOptions({
   addNewCourse,
   deleteCourse,
 }: {
