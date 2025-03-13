@@ -12,7 +12,11 @@ export default function TodoList() {
       <ListGroup style={{ maxWidth: "400px" }}>
         <TodoForm />
         {todos.map((todo: any) => (
-          <TodoItem todo={todo} />
+          <TodoItem 
+            todo={todo} 
+            deleteTodo={() => {}} 
+            setTodo={() => {}} 
+          />
         ))}
       </ListGroup>
 

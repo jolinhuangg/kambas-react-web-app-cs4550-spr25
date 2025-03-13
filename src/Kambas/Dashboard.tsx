@@ -75,7 +75,7 @@ export default function Dashboard({
           <Button
             className="btn btn-primary float-end"
             id="wd-add-new-course-click"
-            onClick={(e) => setEnrollment(!enrollment)}
+            onClick={() => setEnrollment(!enrollment)}
           >
             {" "}
             Enrollment{" "}
