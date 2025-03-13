@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import EnrollmentOptions from "./DashboardTools/EnrollmentOptions";
+import * as db from "./Database";
 export default function Dashboard({
   courses,
   course,
@@ -21,6 +22,16 @@ export default function Dashboard({
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
   const [enrollment, setEnrollment] = useState(false);
+
+  const visibleCourses =
+    enrollment
+      ? courses
+      : courses.filter((course) =>
+          db.enrollments.some(
+            (enr) =>
+              enr.course === course._id && enr.user === currentUser._id
+          )
+        );
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -74,13 +85,13 @@ export default function Dashboard({
         </h5>
       )}
       <h2 id="wd-dashboard-published">
-        Published Courses ({courses.length})
+        Published Courses ({visibleCourses.length})
       </h2>{" "}
       <hr />
       {!enrollment && (
       <div className="row" id="wd-dashboard-courses">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses
+          {visibleCourses
             .map((course) => (
               <div key={course._id} className="col" style={{ width: "300px" }}>
                 <Card>
