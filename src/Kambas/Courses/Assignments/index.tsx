@@ -36,7 +36,7 @@ function convert24to12(timeStr: string) {
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = useSelector((state: any) => state.assignmentReducer);
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
 
