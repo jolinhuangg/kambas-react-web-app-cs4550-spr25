@@ -152,12 +152,7 @@ export default function Dashboard({
         </div>
       )}
 
-      {enrollment && (
-        <EnrollmentOptions
-          addNewCourse={addNewCourse}
-          deleteCourse={deleteCourse}
-        />
-      )}
+      {enrollment && <EnrollmentOptions />}
     </div>
   );
 }
