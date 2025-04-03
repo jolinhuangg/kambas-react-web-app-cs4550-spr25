@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FormControl } from "react-bootstrap";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 export default function QueryParameters() {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import Session from "./Account/Session";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import KambasNavigation from "./Navigation";
@@ -45,7 +44,7 @@ export default function Kambas() {
   }, [currentUser]);
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
+    await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 

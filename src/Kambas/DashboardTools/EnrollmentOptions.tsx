@@ -1,5 +1,5 @@
 import * as db from "../Database";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import * as enrollmentsClient from "./client";
 
 import { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ export default function EnrollmentOptions({
   deleteCourse: (course: any) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const dispatch = useDispatch();
   const courses = db.courses;
   const [enrollments, setEnrollments] = useState(db.enrollments);
 

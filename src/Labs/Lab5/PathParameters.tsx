@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 export default function PathParameters() {
   const [a, setA] = useState("34");

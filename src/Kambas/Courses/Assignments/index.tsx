@@ -8,7 +8,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaSearch } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import GreenCheckmark from "../Modules/GreenCheckmark";
 import DeleteAssignmentPopup from "./DeleteAssignmentPopup";
 import { useEffect, useState } from "react";
 import * as coursesClient from "../client";
