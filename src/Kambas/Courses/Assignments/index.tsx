@@ -150,7 +150,6 @@ export default function Assignments() {
                     </div>
                     {isFaculty && (
                       <AssignmentLessonControlButtons
-                        assignmentId={assignment._id}
                         onDelete={() => setDeleteAssignmentId(assignment._id)}
                       />
                     )}
