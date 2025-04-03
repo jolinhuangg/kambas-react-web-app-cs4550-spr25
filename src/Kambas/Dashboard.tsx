@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import EnrollmentOptions from "./DashboardTools/EnrollmentOptions";
-import * as db from "./Database";
+
 export default function Dashboard({
   courses,
   course,
@@ -21,18 +21,19 @@ export default function Dashboard({
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
+
+  // Toggles enrollment UI
   const [enrollment, setEnrollment] = useState(false);
 
-  const visibleCourses = enrollment
-    ? courses
-    : courses.filter((course) =>
-        db.enrollments.some(
-          (enr) => enr.course === course._id && enr.user === currentUser._id
-        )
-      );
+  // Since the server already returns only the courses for the current user,
+  // we can skip client-side filtering:
+  const visibleCourses = courses;
+
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
+
       {isFaculty && (
         <div>
           <h5>
@@ -42,8 +43,7 @@ export default function Dashboard({
               id="wd-add-new-course-click"
               onClick={addNewCourse}
             >
-              {" "}
-              Add{" "}
+              Add
             </Button>
             <Button
               className="btn btn-warning float-end me-2"
@@ -70,6 +70,7 @@ export default function Dashboard({
           <hr />
         </div>
       )}
+
       {!isFaculty && (
         <h5>
           <Button
@@ -77,15 +78,16 @@ export default function Dashboard({
             id="wd-add-new-course-click"
             onClick={() => setEnrollment(!enrollment)}
           >
-            {" "}
-            Enrollment{" "}
+            Enrollment
           </Button>
         </h5>
       )}
+
       <h2 id="wd-dashboard-published">
         Published Courses ({visibleCourses.length})
-      </h2>{" "}
+      </h2>
       <hr />
+
       {!enrollment && (
         <div className="row" id="wd-dashboard-courses">
           <div className="row row-cols-1 row-cols-md-5 g-4">
@@ -104,15 +106,15 @@ export default function Dashboard({
                     />
                     <Card.Body className="card-body">
                       <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
-                        {course.name}{" "}
+                        {course.name}
                       </Card.Title>
                       <Card.Text
                         className="wd-dashboard-course-description overflow-hidden"
                         style={{ height: "100px" }}
                       >
-                        {course.description}{" "}
+                        {course.description}
                       </Card.Text>
-                      <Button variant="primary"> Go </Button>
+                      <Button variant="primary">Go</Button>
 
                       {isFaculty && (
                         <>
@@ -149,7 +151,13 @@ export default function Dashboard({
           </div>
         </div>
       )}
-      {enrollment && <EnrollmentOptions />}
+
+      {enrollment && (
+        <EnrollmentOptions
+          addNewCourse={addNewCourse}
+          deleteCourse={deleteCourse}
+        />
+      )}
     </div>
   );
 }

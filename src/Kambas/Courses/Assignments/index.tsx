@@ -5,13 +5,16 @@ import AssignmentControlButton from "./AssignmentControlButton";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BsGripVertical } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaSearch, FaTrash } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import { IoEllipsisVertical } from "react-icons/io5";
 import DeleteAssignmentPopup from "./DeleteAssignmentPopup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { setAssignments } from "./reducer";
+import AssignmentLessonControlButtons from "./AssignmentLessonControlButtons";
 
 function formatDateNative(dateString: string): string {
   const date = new Date(dateString);
@@ -36,11 +39,42 @@ function convert24to12(timeStr: string) {
 
 export default function Assignments() {
   const { cid } = useParams();
+  const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
 
+  // Local state to hold the assignment ID we want to delete
   const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(null);
+
+  // Fetch assignments from the server when cid changes
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      if (cid) {
+        try {
+          const fetched = await coursesClient.findAssignmentsForCourse(cid);
+          dispatch(setAssignments(fetched));
+        } catch (error) {
+          console.error("Error fetching assignments:", error);
+        }
+      }
+    };
+    fetchAssignments();
+  }, [cid, dispatch]);
+
+  // Delete assignment handler invoked from the popup
+  const handleDeleteAssignment = async (assignmentId: string) => {
+    try {
+      await assignmentsClient.deleteAssignment(assignmentId);
+      if (cid) {
+        const updated = await coursesClient.findAssignmentsForCourse(cid);
+        dispatch(setAssignments(updated));
+      }
+      setDeleteAssignmentId(null);
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+    }
+  };
 
   return (
     <Container className="ms-3" id="wd-assignments">
@@ -65,7 +99,8 @@ export default function Assignments() {
           </div>
 
           <ul id="wd-assignments" className="list-group rounded-0">
-            {assignments.filter((assignment: any) => assignment.course === cid)
+            {assignments
+              .filter((assignment: any) => assignment.course === cid)
               .map((assignment: any) => (
                 <li
                   key={assignment._id}
@@ -80,21 +115,22 @@ export default function Assignments() {
                       >
                         {assignment.title}
                       </a>
-
                       <div className="small">
                         <span className="text-danger fs-6">
                           Multiple Modules
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fw-bold fs-6">
-                          Not available until
+                          Not available until{" "}
                         </span>
                         <span className="text-muted fs-6">
                           {formatDateNative(
                             assignment.available.split("T")[0]
                           )}{" "}
                           at{" "}
-                          {convert24to12(assignment.available.split("T")[1] || "00:00")}
+                          {convert24to12(
+                            assignment.available.split("T")[1] || "00:00"
+                          )}
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fw-bold fs-6"> Due </span>
@@ -103,7 +139,9 @@ export default function Assignments() {
                             assignment.duedate.split("T")[0]
                           )}{" "}
                           at{" "}
-                          {convert24to12(assignment.duedate.split("T")[1] || "00:00")}
+                          {convert24to12(
+                            assignment.duedate.split("T")[1] || "00:00"
+                          )}
                         </span>
                         <span className="text-muted"> | </span>
                         <span className="text-muted fs-6">
@@ -112,17 +150,10 @@ export default function Assignments() {
                       </div>
                     </div>
                     {isFaculty && (
-                      <div className="float-end">
-                        <FaTrash
-                          className="text-danger me-2 mb-1"
-                          onClick={() =>
-                            setDeleteAssignmentId(assignment._id)
-                          }
-                          style={{ cursor: "pointer" }}
-                        />
-                        <GreenCheckmark />
-                        <IoEllipsisVertical className="fs-4" />
-                      </div>
+                      <AssignmentLessonControlButtons
+                        assignmentId={assignment._id}
+                        onDelete={() => setDeleteAssignmentId(assignment._id)}
+                      />
                     )}
                   </div>
                 </li>
@@ -135,6 +166,7 @@ export default function Assignments() {
         <DeleteAssignmentPopup
           assignmentId={deleteAssignmentId}
           onClose={() => setDeleteAssignmentId(null)}
+          onDelete={() => handleDeleteAssignment(deleteAssignmentId)}
         />
       )}
     </Container>

@@ -10,6 +10,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { aid, cid } = useParams();
@@ -17,6 +18,7 @@ export default function AssignmentEditor() {
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
 
+  // If editing an existing assignment, pre-populate local state
   const existingAssignment =
     aid !== "new" ? assignments.find((a: any) => a._id === aid) : null;
 
@@ -29,48 +31,53 @@ export default function AssignmentEditor() {
     availableuntil: existingAssignment?.availableuntil || "",
   });
 
-  const handleSave = () => {
-    if (aid === "new") {
-      dispatch(
-        addAssignment({
-          title: assignment.title,
-          course: cid,
-          available: assignment.available,
-          availableuntil: assignment.availableuntil,
-          duedate: assignment.duedate,
-          points: assignment.points,
-          description: assignment.description,
-        })
-      );
-    } else {
-      dispatch(
-        updateAssignment({
+  const handleSave = async () => {
+    try {
+      if (aid === "new") {
+        const newAssignment = await assignmentsClient.createAssignmentForCourse(
+          cid as string,
+          {
+            title: assignment.title,
+            description: assignment.description,
+            points: assignment.points,
+            duedate: assignment.duedate,
+            available: assignment.available,
+            availableuntil: assignment.availableuntil,
+          }
+        );
+        dispatch(addAssignment(newAssignment));
+      } else {
+        const updatedAssignment = await assignmentsClient.updateAssignment({
           _id: aid,
           title: assignment.title,
-          course: cid,
+          description: assignment.description,
+          points: assignment.points,
+          duedate: assignment.duedate,
           available: assignment.available,
           availableuntil: assignment.availableuntil,
-          duedate: assignment.duedate,
-          points: assignment.points,
-          description: assignment.description,
-        })
-      );
+        });
+        dispatch(updateAssignment(updatedAssignment));
+      }
+      navigate(`/Kambas/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Error saving assignment:", error);
     }
-    navigate(`/Kambas/Courses/${cid}/Assignments`);
   };
 
   return (
-    <div>
-      <Container className="ms-3" id="wd-assignments-editor">
-        <label htmlFor="wd-name">Assignment Name</label>
-        <InputGroup id="wd-name">
-          <FormControl
-            value={assignment.title}
-            onChange={(e) =>
-              setAssignment({ ...assignment, title: e.target.value })
-            }
-          />
-        </InputGroup>
+    <Container className="ms-3" id="wd-assignments-editor">
+      <Form>
+        <div className="mb-3">
+          <Form.Label htmlFor="wd-name">Assignment Name</Form.Label>
+          <InputGroup id="wd-name">
+            <FormControl
+              value={assignment.title}
+              onChange={(e) =>
+                setAssignment({ ...assignment, title: e.target.value })
+              }
+            />
+          </InputGroup>
+        </div>
         <Form.Group className="mt-3 mb-3">
           <Form.Control
             as="textarea"
@@ -94,7 +101,7 @@ export default function AssignmentEditor() {
               onChange={(e) =>
                 setAssignment({
                   ...assignment,
-                  points: e.target.value,
+                  points: parseInt(e.target.value, 10),
                 })
               }
             />
@@ -157,14 +164,12 @@ export default function AssignmentEditor() {
           <Form.Label column sm={3} className="text-end">
             Assign
           </Form.Label>
-
           <Col sm={9}>
             <Form.Group className="mb-3 border p-3 rounded">
               <Form.Label className="fw-bold">Assign to</Form.Label>
               <Form.Select className="mb-3">
                 <option>Everyone</option>
               </Form.Select>
-
               <Form.Label className="fw-bold">Due</Form.Label>
               <InputGroup>
                 <Form.Control
@@ -172,14 +177,10 @@ export default function AssignmentEditor() {
                   type="datetime-local"
                   value={assignment.duedate}
                   onChange={(e) =>
-                    setAssignment({
-                      ...assignment,
-                      duedate: e.target.value,
-                    })
+                    setAssignment({ ...assignment, duedate: e.target.value })
                   }
                 />
               </InputGroup>
-
               <Form.Group as={Row} className="mb-3 align-items-center">
                 <Col sm={6}>
                   <Form.Label className="fw-bold">Available from</Form.Label>
@@ -188,15 +189,11 @@ export default function AssignmentEditor() {
                       type="datetime-local"
                       value={assignment.available}
                       onChange={(e) =>
-                        setAssignment({
-                          ...assignment,
-                          available: e.target.value,
-                        })
+                        setAssignment({ ...assignment, available: e.target.value })
                       }
                     />
                   </InputGroup>
                 </Col>
-
                 <Col sm={6}>
                   <Form.Label className="fw-bold">Until</Form.Label>
                   <InputGroup>
@@ -229,7 +226,7 @@ export default function AssignmentEditor() {
             Save
           </button>
         </div>
-      </Container>
-    </div>
+      </Form>
+    </Container>
   );
 }

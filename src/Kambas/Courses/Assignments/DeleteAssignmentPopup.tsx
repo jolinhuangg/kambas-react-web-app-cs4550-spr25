@@ -1,23 +1,19 @@
-import { useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import React, { FC } from "react";
 
-const DeleteAssignmentPopup = ({ assignmentId, onClose }: { assignmentId: string; onClose: () => void }) => {
-  const dispatch = useDispatch();
+interface DeleteAssignmentPopupProps {
+  assignmentId: string;
+  onClose: () => void;
+  onDelete: () => void;
+}
 
-  const handleDelete = () => {
-    if (assignmentId) {
-      dispatch(deleteAssignment(assignmentId));
-    }
-    if (onClose) onClose();
-  };
-
+const DeleteAssignmentPopup: FC<DeleteAssignmentPopupProps> = ({ onClose, onDelete }) => {
   return (
     <div
       className="modal fade show"
-      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
       id="wd-delete-assignment-popup"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
+      tabIndex={-1}
+      aria-hidden="true"
+      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <div className="modal-dialog">
         <div className="modal-content">
@@ -31,7 +27,7 @@ const DeleteAssignmentPopup = ({ assignmentId, onClose }: { assignmentId: string
             ></button>
           </div>
           <div className="modal-body">
-            Are you sure you want to delete this assignment?
+            Are you sure you want to remove this assignment?
           </div>
           <div className="modal-footer">
             <button
@@ -44,7 +40,7 @@ const DeleteAssignmentPopup = ({ assignmentId, onClose }: { assignmentId: string
             <button
               type="button"
               className="btn btn-danger"
-              onClick={handleDelete}
+              onClick={onDelete}
             >
               Yes
             </button>
