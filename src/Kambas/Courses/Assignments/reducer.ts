@@ -10,7 +10,7 @@ const assignmentsSlice = createSlice({
   name: "assignments",
   initialState,
   reducers: {
-    setAssignments: (state: AssignmentState, action) => {
+    setAssignments: (state, action) => {
       state.assignments = action.payload as Assignment[];
   },
     addAssignment: (state, { payload }) => {

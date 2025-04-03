@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 
 interface DeleteAssignmentPopupProps {
-  assignmentId: string;
   onClose: () => void;
   onDelete: () => void;
 }
