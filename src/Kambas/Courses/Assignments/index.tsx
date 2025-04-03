@@ -163,7 +163,6 @@ export default function Assignments() {
 
       {deleteAssignmentId && (
         <DeleteAssignmentPopup
-          assignmentId={deleteAssignmentId}
           onClose={() => setDeleteAssignmentId(null)}
           onDelete={() => handleDeleteAssignment(deleteAssignmentId)}
         />

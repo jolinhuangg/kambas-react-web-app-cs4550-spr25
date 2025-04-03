@@ -3,12 +3,11 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
 
-interface AssignmentLessonControlButtonsProps {
-  assignmentId: string;
-  onDelete: () => void;
-}
+interface DeleteAssignmentPopupProps {
+    onDelete: () => void | Promise<void>;
+  }
 
-const AssignmentLessonControlButtons: React.FC<AssignmentLessonControlButtonsProps> = ({ assignmentId, onDelete }) => {
+const AssignmentLessonControlButtons: React.FC<AssignmentLessonControlButtonsProps> = ({ onDelete }) => {
   return (
     <div className="float-end ms-auto">
       <GreenCheckmark />

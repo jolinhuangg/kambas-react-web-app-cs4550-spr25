@@ -4,13 +4,7 @@ import * as enrollmentsClient from "./client";
 
 import { useEffect, useState } from "react";
 
-export default function EnrollmentOptions({
-  addNewCourse,
-  deleteCourse,
-}: {
-  addNewCourse: () => void;
-  deleteCourse: (course: any) => void;
-}) {
+export default function EnrollmentOptions() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const courses = db.courses;
   const [enrollments, setEnrollments] = useState(db.enrollments);
