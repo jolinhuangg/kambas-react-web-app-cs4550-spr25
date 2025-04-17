@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
-import { useState } from "react";
 import EnrollmentOptions from "./DashboardTools/EnrollmentOptions";
 
 export default function Dashboard({
@@ -11,6 +10,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  enrolling,
+  setEnrolling,
+  updateEnrollment,
 }: {
   courses: any[];
   course: any;
@@ -18,20 +20,25 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
-
-  // Toggles enrollment UI
-  const [enrollment, setEnrollment] = useState(false);
-
-  // Since the server already returns only the courses for the current user,
-  // we can skip client-side filtering:
   const visibleCourses = courses;
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title">
+        Dashboard
+        <button
+          onClick={() => setEnrolling(!enrolling)}
+          className="float-end btn btn-primary"
+        >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
+      </h1>
       <hr />
 
       {isFaculty && (
@@ -71,24 +78,12 @@ export default function Dashboard({
         </div>
       )}
 
-      {!isFaculty && (
-        <h5>
-          <Button
-            className="btn btn-primary float-end"
-            id="wd-add-new-course-click"
-            onClick={() => setEnrollment(!enrollment)}
-          >
-            Enrollment
-          </Button>
-        </h5>
-      )}
-
       <h2 id="wd-dashboard-published">
         Published Courses ({visibleCourses.length})
       </h2>
       <hr />
 
-      {!enrollment && (
+      {!enrolling && (
         <div className="row" id="wd-dashboard-courses">
           <div className="row row-cols-1 row-cols-md-5 g-4">
             {visibleCourses.map((course) => (
@@ -106,6 +101,19 @@ export default function Dashboard({
                     />
                     <Card.Body className="card-body">
                       <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                        {enrolling && (
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              updateEnrollment(course._id, !course.enrolled);
+                            }}
+                            className={`btn ${
+                              course.enrolled ? "btn-danger" : "btn-success"
+                            } float-end`}
+                          >
+                            {course.enrolled ? "Unenroll" : "Enroll"}
+                          </button>
+                        )}
                         {course.name}
                       </Card.Title>
                       <Card.Text
@@ -152,7 +160,7 @@ export default function Dashboard({
         </div>
       )}
 
-      {enrollment && <EnrollmentOptions />}
+      {enrolling && <EnrollmentOptions />}
     </div>
   );
 }

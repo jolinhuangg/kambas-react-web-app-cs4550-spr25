@@ -44,7 +44,9 @@ export default function Assignments() {
   const isFaculty = currentUser?.role === "FACULTY";
 
   // Local state to hold the assignment ID we want to delete
-  const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(null);
+  const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(
+    null
+  );
 
   // Fetch assignments from the server when cid changes
   useEffect(() => {
@@ -98,64 +100,55 @@ export default function Assignments() {
           </div>
 
           <ul id="wd-assignments" className="list-group rounded-0">
-            {assignments
-              .filter((assignment: any) => assignment.course === cid)
-              .map((assignment: any) => (
-                <li
-                  key={assignment._id}
-                  className="wd-assignment list-group-item p-2 border-gray"
-                >
-                  <div className="d-flex align-items-center">
-                    <AssignmentIcons />
-                    <div className="ms-4 flex-grow-1">
-                      <a
-                        href={`#/Kambas/Courses/${assignment.course}/Assignments/${assignment._id}/`}
-                        className="wd-assignment-link"
-                      >
-                        {assignment.title}
-                      </a>
-                      <div className="small">
-                        <span className="text-danger fs-6">
-                          Multiple Modules
-                        </span>
-                        <span className="text-muted"> | </span>
-                        <span className="text-muted fw-bold fs-6">
-                          Not available until{" "}
-                        </span>
-                        <span className="text-muted fs-6">
-                          {formatDateNative(
-                            assignment.available.split("T")[0]
-                          )}{" "}
-                          at{" "}
-                          {convert24to12(
-                            assignment.available.split("T")[1] || "00:00"
-                          )}
-                        </span>
-                        <span className="text-muted"> | </span>
-                        <span className="text-muted fw-bold fs-6"> Due </span>
-                        <span className="text-muted fs-6">
-                          {formatDateNative(
-                            assignment.duedate.split("T")[0]
-                          )}{" "}
-                          at{" "}
-                          {convert24to12(
-                            assignment.duedate.split("T")[1] || "00:00"
-                          )}
-                        </span>
-                        <span className="text-muted"> | </span>
-                        <span className="text-muted fs-6">
-                          {assignment.points} points
-                        </span>
-                      </div>
+            {assignments.map((assignment: any) => (
+              <li
+                key={assignment._id}
+                className="wd-assignment list-group-item p-2 border-gray"
+              >
+                <div className="d-flex align-items-center">
+                  <AssignmentIcons />
+                  <div className="ms-4 flex-grow-1">
+                    <a
+                      href={`#/Kambas/Courses/${assignment.course}/Assignments/${assignment._id}/`}
+                      className="wd-assignment-link"
+                    >
+                      {assignment.title}
+                    </a>
+                    <div className="small">
+                      <span className="text-danger fs-6">Multiple Modules</span>
+                      <span className="text-muted"> | </span>
+                      <span className="text-muted fw-bold fs-6">
+                        Not available until{" "}
+                      </span>
+                      <span className="text-muted fs-6">
+                        {formatDateNative(assignment.available.split("T")[0])}{" "}
+                        at{" "}
+                        {convert24to12(
+                          assignment.available.split("T")[1] || "00:00"
+                        )}
+                      </span>
+                      <span className="text-muted"> | </span>
+                      <span className="text-muted fw-bold fs-6"> Due </span>
+                      <span className="text-muted fs-6">
+                        {formatDateNative(assignment.duedate.split("T")[0])} at{" "}
+                        {convert24to12(
+                          assignment.duedate.split("T")[1] || "00:00"
+                        )}
+                      </span>
+                      <span className="text-muted"> | </span>
+                      <span className="text-muted fs-6">
+                        {assignment.points} points
+                      </span>
                     </div>
-                    {isFaculty && (
-                      <AssignmentLessonControlButtons
-                        onDelete={() => setDeleteAssignmentId(assignment._id)}
-                      />
-                    )}
                   </div>
-                </li>
-              ))}
+                  {isFaculty && (
+                    <AssignmentLessonControlButtons
+                      onDelete={() => setDeleteAssignmentId(assignment._id)}
+                    />
+                  )}
+                </div>
+              </li>
+            ))}
           </ul>
         </ListGroup.Item>
       </ListGroup>
