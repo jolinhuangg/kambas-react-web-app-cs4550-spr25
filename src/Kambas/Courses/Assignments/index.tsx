@@ -43,7 +43,6 @@ export default function Assignments() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
 
-  // Local state to hold the assignment ID we want to delete
   const [deleteAssignmentId, setDeleteAssignmentId] = useState<string | null>(
     null
   );
@@ -63,7 +62,6 @@ export default function Assignments() {
     fetchAssignments();
   }, [cid, dispatch]);
 
-  // Delete assignment handler invoked from the popup
   const handleDeleteAssignment = async (assignmentId: string) => {
     try {
       await assignmentsClient.deleteAssignment(assignmentId);
