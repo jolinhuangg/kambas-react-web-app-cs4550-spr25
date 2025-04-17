@@ -83,7 +83,7 @@ export default function Kambas() {
   }, [currentUser, enrolling]);
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
+    await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
