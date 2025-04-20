@@ -4,6 +4,7 @@ import * as quizzesClient from "./client";
 import { useEffect, useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 
+//http://localhost:5174/#/Kambas/Courses/RS101/Quizzes/Q101
 
 export default function QuizDetails() {
   const { qid } = useParams();
@@ -43,12 +44,16 @@ export default function QuizDetails() {
   return (
     <Container className="mt-4">
 
-    
+      
       <div className="container d-flex justify-content-center gap-2">
+            {/** Preview Button -> Quiz Preview Screen */}
             <button className="btn btn-light btn-outline-secondary">Preview</button>
+            
+            {/** Edit Button -> Quiz Editor Screen */}
             <button className="btn btn-light btn-outline-secondary"> <FaPencil/> Edit</button>
       </div>
    
+      {/** Quiz Properties */}
       <div className="py-3 px-4 mt-2" style={{border: "2px dotted gray"}}> 
       <h2 className="mb-4">Quiz Name</h2>
       <div className="d-flex flex-column gap-1 mb-4">

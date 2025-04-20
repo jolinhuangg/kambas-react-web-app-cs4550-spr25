@@ -10,6 +10,7 @@ import { setQuizzes } from "./reducer";
 import * as quizzesClient from "./client";
 
 export default function Quizzes() {
+  const { cid } = useParams();
   const { qid } = useParams();
   const dispatch = useDispatch();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
@@ -44,9 +45,9 @@ export default function Quizzes() {
   // Fetch assignments from the server when cid changes
   useEffect(() => {
     const fetchQuizzes = async () => {
-      if (qid) {
+      if (cid) {
         try {
-          const fetched = await quizzesClient.findQuizzesForCourse(qid);
+          const fetched = await quizzesClient.findQuizzesForCourse(cid);
           
           dispatch(setQuizzes(fetched)); //reducer
         } catch (error) {
@@ -55,13 +56,13 @@ export default function Quizzes() {
       }
     };
     fetchQuizzes();
-  }, [qid, dispatch]);
+  }, [cid, dispatch]);
 
   const handleDeleteQuiz = async (quizId: string) => {
     try {
       await quizzesClient.deleteQuiz(quizId);
-      if (qid) {
-        const updated = await await quizzesClient.findQuizzesForCourse(qid);
+      if (cid) {
+        const updated = await await quizzesClient.findQuizzesForCourse(cid);
         dispatch(setQuizzes(updated));
       }
       setDeleteQuizId(null);
@@ -91,7 +92,7 @@ export default function Quizzes() {
           <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             <IoMdArrowDropdown className="me-2 fs-3" />
-            quizzeS
+            Quizzes
             {/*
             {isFaculty && <quizzeControlButton />}
             */}
