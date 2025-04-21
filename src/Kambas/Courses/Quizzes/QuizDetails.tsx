@@ -1,14 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import * as quizzesClient from "./client";
 import { useEffect, useState } from "react";
 import { FaPencil } from "react-icons/fa6";
+import Button from "react-bootstrap";
 
 //http://localhost:5174/#/Kambas/Courses/RS101/Quizzes/Q101
 
 export default function QuizDetails() {
-  const { qid } = useParams();
+  const { qid, cid } = useParams();
   const [quiz, setQuiz] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -50,7 +52,10 @@ export default function QuizDetails() {
             <button className="btn btn-light btn-outline-secondary">Preview</button>
             
             {/** Edit Button -> Quiz Editor Screen */}
-            <button className="btn btn-light btn-outline-secondary"> <FaPencil/> Edit</button>
+            <button 
+                className="btn btn-light btn-outline-secondary"
+                onClick={() => navigate(`/Kambas/Courses/${cid}/Quizzes/${qid}/edit`)}
+            > <FaPencil/> Edit</button>
       </div>
    
       {/** Quiz Properties */}

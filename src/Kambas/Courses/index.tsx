@@ -9,6 +9,8 @@ import { Container } from "react-bootstrap";
 import PeopleTable from "./People/Table";
 import Quizzes from "./Quizzes";
 import QuizDetails from "./Quizzes/QuizDetails";
+import DetailsEditor from "./Quizzes/DetailsEditor";
+
 
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
@@ -32,6 +34,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="Quizzes" element={<Quizzes />} />           
             <Route path="Quizzes/:qid" element={<QuizDetails />} />
+            <Route path="Quizzes/:qid/edit" element={<DetailsEditor />} />
             <Route path="People" element={<PeopleTable />} />
 
           </Routes>
