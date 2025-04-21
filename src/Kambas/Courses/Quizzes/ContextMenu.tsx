@@ -1,11 +1,9 @@
 import { Dropdown} from "react-bootstrap";
-
-import { BiBlock } from "react-icons/bi";
 import { forwardRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 
-const CustomToggle = forwardRef(({ onClick }, ref) => (
+const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHandler<HTMLDivElement> }>(({ onClick }, ref) => (
     <div
       ref={ref}
       onClick={(e) => {

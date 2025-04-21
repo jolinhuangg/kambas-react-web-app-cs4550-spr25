@@ -5,21 +5,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaSearch } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setQuizzes } from "./reducer";
 import * as quizzesClient from "./client";
 
 export default function Quizzes() {
   const { cid } = useParams();
-  const { qid } = useParams();
+  //const { qid } = useParams();
   const dispatch = useDispatch();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const isFaculty = currentUser?.role === "FACULTY";
+  //const { currentUser } = useSelector((state: any) => state.accountReducer);
+  //const isFaculty = currentUser?.role === "FACULTY";
 
+  /*
   const [deleteQuizId, setDeleteQuizId] = useState<string | null>(
     null
-  );
+  ); */
 
   function formatDateNative(dateString: string): string {
     const date = new Date(dateString);
@@ -58,7 +59,7 @@ export default function Quizzes() {
     fetchQuizzes();
   }, [cid, dispatch]);
 
-  const handleDeleteQuiz = async (quizId: string) => {
+  /* const handleDeleteQuiz = async (quizId: string) => {
     try {
       await quizzesClient.deleteQuiz(quizId);
       if (cid) {
@@ -69,7 +70,7 @@ export default function Quizzes() {
     } catch (error) {
       console.error("Error deleting quiz:", error);
     }
-  };
+  }; */
 
   return (
     <Container className="ms-3" id="wd-quizzes">
@@ -156,7 +157,6 @@ export default function Quizzes() {
         </ListGroup.Item>
       </ListGroup>
 
-
-biblock    </Container>
+</Container>
   );
 }
