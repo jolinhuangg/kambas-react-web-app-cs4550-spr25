@@ -1,13 +1,13 @@
-import { Container, Dropdown, Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useParams, Outlet, NavLink } from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiBlock } from "react-icons/bi";
 
 import ContextMenu from "./ContextMenu";
 
 export default function DetailsEditor() {
     const { qid, cid } = useParams();
-    const [quiz, setQuiz] = useState<any>(null);
+    const [quiz] = useState<any>(null);
 
     const tabStyle = {
         padding: "8px 20px",
