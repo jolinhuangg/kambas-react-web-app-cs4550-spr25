@@ -39,7 +39,6 @@ export default function Modules() {
     dispatch(updateModule(module));
   };
  
-
   const fetchModulesForCourse = async () => {
     const modules = await coursesClient.findModulesForCourse(cid!);
     dispatch(setModules(modules));

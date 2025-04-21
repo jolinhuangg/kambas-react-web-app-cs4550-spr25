@@ -3,7 +3,6 @@ import { Container, Row, Col, Table } from "react-bootstrap";
 import * as quizzesClient from "./client";
 import { useEffect, useState } from "react";
 import { FaPencil } from "react-icons/fa6";
-import Button from "react-bootstrap";
 
 //http://localhost:5174/#/Kambas/Courses/RS101/Quizzes/Q101
 

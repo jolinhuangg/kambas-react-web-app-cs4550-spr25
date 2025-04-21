@@ -18,6 +18,7 @@ export default function Profile() {
     if (!currentUser) return navigate("/Kambas/Account/Signin");
     setProfile(currentUser);
   };
+  
   const signout = async () => {
     await client.signout();
     dispatch(setCurrentUser(null));
