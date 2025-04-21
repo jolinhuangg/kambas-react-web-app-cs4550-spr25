@@ -1,5 +1,5 @@
 import { useParams, useNavigate} from "react-router-dom";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import * as quizzesClient from "./client";
 import { useEffect, useState } from "react";
 import { FaPencil } from "react-icons/fa6";
@@ -8,14 +8,15 @@ import { FaPencil } from "react-icons/fa6";
 
 export default function QuizDetails() {
   const { qid, cid } = useParams();
-  const [quiz, setQuiz] = useState<any>(null);
+  const [setQuiz] = useState<any>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuiz = async () => {
       if (qid) {
         try {
-          const data = await quizzesClient.findQuizById(qid);
+          //replace with findQuizById
+          const data = await quizzesClient.deleteQuiz(qid);
           setQuiz(data);
         } catch (err) {
           console.error("Error loading quiz:", err);
