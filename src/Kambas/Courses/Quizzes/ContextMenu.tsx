@@ -1,41 +1,38 @@
-import { Dropdown} from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { forwardRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-
 const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHandler<HTMLDivElement> }>(({ onClick }, ref) => (
-    <div
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick?.(e);
-      }}
-      style={{ 
-        cursor: "pointer",
-        border: "1px solid lightgray", // Bootstrap border color
-        background: "#F0F0F0",
-        borderRadius: "3px",   // Slightly rounded
-        padding: "4px 5px",
+  <div
+    ref={ref}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick?.(e);
     }}
-      
-    >
-      <BsThreeDotsVertical size={15} />
-    </div>
-  ));
+    style={{
+      cursor: "pointer"
+    }}
+  >
+    <BsThreeDotsVertical size={20} />
+  </div>
+));
 
+interface ContextMenuProps {
+  onDelete: () => void | Promise<void>;
+}
 
-  export default function ContextMenu() {
-    return (
-    <Dropdown>
-    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-toggle" />
+export default function ContextMenu({ onDelete }: ContextMenuProps) {
+  return (
+    <Dropdown align="end">
+      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-toggle" />
 
-        <Dropdown.Menu>
-        <Dropdown.Item>Edit</Dropdown.Item> {/** navigate to QuizDetails */}
-        <Dropdown.Item>Delete</Dropdown.Item> 
-        <Dropdown.Item>Publish</Dropdown.Item> {/** Option becomes Unpublish */}
-        <Dropdown.Item>Copy</Dropdown.Item> {/** copy to another course (optional) */}
-        <Dropdown.Item>Sort</Dropdown.Item> {/** csort by name, due date, available date (optional) */}
-        </Dropdown.Menu>
+      <Dropdown.Menu>
+        <Dropdown.Item>Edit</Dropdown.Item> {/* navigate to QuizDetails */}
+        <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+        <Dropdown.Item>Publish</Dropdown.Item> {/* Option becomes Unpublish */}
+        <Dropdown.Item>Copy</Dropdown.Item> {/* Copy to another course (optional) */}
+        <Dropdown.Item>Sort</Dropdown.Item> {/* Sort by name, due date, available date (optional) */}
+      </Dropdown.Menu>
     </Dropdown>
-    )
-  }
+  );
+}

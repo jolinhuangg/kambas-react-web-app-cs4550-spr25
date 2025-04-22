@@ -32,7 +32,7 @@ export default function DetailsEditor() {
       <div className="mt-4 d-flex justify-content-end align-items-center gap-3">
         <div>  Points {quiz?.points ?? 0} </div>
         <div className="text-secondary d-flex align-items-center gap-1">  <BiBlock size={20}/> Not Published </div>
-        <ContextMenu/>
+        
       </div>
 
       <hr/>

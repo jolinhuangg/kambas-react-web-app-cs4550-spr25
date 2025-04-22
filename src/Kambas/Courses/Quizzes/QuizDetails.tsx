@@ -15,8 +15,7 @@ export default function QuizDetails() {
     const fetchQuiz = async () => {
       if (qid) {
         try {
-          //replace with findQuizById
-          const data = await quizzesClient.deleteQuiz(qid);
+          const data = await quizzesClient.findQuizById(qid);
           setQuiz(data);
         } catch (err) {
           console.error("Error loading quiz:", err);
