@@ -198,7 +198,12 @@ export default function Quizzes() {
                     </div>
                   </div>
                   {isFaculty && (
-                    <QuizControls onDelete={() => handleDeleteQuiz(quiz._id)} onPublish={() => handlePublishQuiz(quiz._id)} published={quiz.published} />
+                    <QuizControls
+                      onDelete={() => handleDeleteQuiz(quiz._id)}
+                      onPublish={() => handlePublishQuiz(quiz._id)}
+                      published={quiz.published}
+                      qid={quiz._id}
+                    />
                   )}
                 </div>
               </li>

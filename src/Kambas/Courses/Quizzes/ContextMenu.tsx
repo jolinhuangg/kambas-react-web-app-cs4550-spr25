@@ -1,8 +1,12 @@
 import { Dropdown } from "react-bootstrap";
 import { forwardRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useNavigate, useParams } from "react-router";
 
-const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHandler<HTMLDivElement> }>(({ onClick }, ref) => (
+const CustomToggle = forwardRef<
+  HTMLDivElement,
+  { onClick?: React.MouseEventHandler<HTMLDivElement> }
+>(({ onClick }, ref) => (
   <div
     ref={ref}
     onClick={(e) => {
@@ -10,7 +14,7 @@ const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHand
       onClick?.(e);
     }}
     style={{
-      cursor: "pointer"
+      cursor: "pointer",
     }}
   >
     <BsThreeDotsVertical size={20} />
@@ -20,19 +24,24 @@ const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHand
 interface ContextMenuProps {
   onDelete: () => void | Promise<void>;
   onPublish: () => void | Promise<void>;
+  qid: string;
 }
 
-export default function ContextMenu({ onDelete, onPublish }: ContextMenuProps) {
+export default function ContextMenu({ onDelete, onPublish, qid }: ContextMenuProps) {
+  const navigate = useNavigate();
+  const { cid } = useParams();
   return (
     <Dropdown align="end">
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-toggle" />
 
       <Dropdown.Menu>
-        <Dropdown.Item>Edit</Dropdown.Item> {/* navigate to QuizDetails */}
+        <Dropdown.Item
+          onClick={() => navigate(`/Kambas/Courses/${cid}/Quizzes/${qid}/edit`)}
+        >
+          Edit
+        </Dropdown.Item>
         <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
-        <Dropdown.Item onClick={onPublish}>Publish</Dropdown.Item> {/* Option becomes Unpublish */}
-        <Dropdown.Item>Copy</Dropdown.Item> {/* Copy to another course (optional) */}
-        <Dropdown.Item>Sort</Dropdown.Item> {/* Sort by name, due date, available date (optional) */}
+        <Dropdown.Item onClick={onPublish}>Publish</Dropdown.Item>{" "}
       </Dropdown.Menu>
     </Dropdown>
   );

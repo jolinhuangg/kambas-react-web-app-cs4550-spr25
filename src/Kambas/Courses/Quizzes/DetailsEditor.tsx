@@ -2,9 +2,6 @@ import { Container, Form, FormControl, InputGroup, Row, Col, } from "react-boots
 import { useParams, NavLink } from "react-router";
 import { useState } from "react";
 import { BiBlock } from "react-icons/bi";
-import * as quizzesClient from "./client";
-
-import ContextMenu from "./ContextMenu";
 
 export default function DetailsEditor() {
     const { qid, cid } = useParams();
