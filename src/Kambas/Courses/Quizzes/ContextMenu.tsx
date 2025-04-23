@@ -19,9 +19,10 @@ const CustomToggle = forwardRef<HTMLDivElement, { onClick?: React.MouseEventHand
 
 interface ContextMenuProps {
   onDelete: () => void | Promise<void>;
+  onPublish: () => void | Promise<void>;
 }
 
-export default function ContextMenu({ onDelete }: ContextMenuProps) {
+export default function ContextMenu({ onDelete, onPublish }: ContextMenuProps) {
   return (
     <Dropdown align="end">
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-toggle" />
@@ -29,7 +30,7 @@ export default function ContextMenu({ onDelete }: ContextMenuProps) {
       <Dropdown.Menu>
         <Dropdown.Item>Edit</Dropdown.Item> {/* navigate to QuizDetails */}
         <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
-        <Dropdown.Item>Publish</Dropdown.Item> {/* Option becomes Unpublish */}
+        <Dropdown.Item onClick={onPublish}>Publish</Dropdown.Item> {/* Option becomes Unpublish */}
         <Dropdown.Item>Copy</Dropdown.Item> {/* Copy to another course (optional) */}
         <Dropdown.Item>Sort</Dropdown.Item> {/* Sort by name, due date, available date (optional) */}
       </Dropdown.Menu>

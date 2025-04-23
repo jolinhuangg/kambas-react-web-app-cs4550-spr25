@@ -4,13 +4,21 @@ import ContextMenu from "./ContextMenu"; // make sure path is correct
 
 interface QuizControlButtonsProps {
   onDelete: () => void | Promise<void>;
+  onPublish: () => void | Promise<void>;
+  published: boolean;
 }
 
-const QuizControls: React.FC<QuizControlButtonsProps> = ({ onDelete }) => {
+const QuizControls: React.FC<QuizControlButtonsProps> = ({
+  onDelete,
+  onPublish,
+  published,
+}) => {
   return (
     <div className="d-flex align-items-center justify-content-end ms-auto gap-2">
-      <GreenCheckmark />
-      <ContextMenu onDelete={onDelete} />
+      <div style={{ opacity: published ? 1 : 0.5 }}>
+        <GreenCheckmark />
+      </div>
+      <ContextMenu onDelete={onDelete} onPublish={onPublish} />
     </div>
   );
 };

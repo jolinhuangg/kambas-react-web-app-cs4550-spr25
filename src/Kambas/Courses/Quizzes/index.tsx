@@ -77,6 +77,18 @@ export default function Quizzes() {
     }
   };
 
+  const handlePublishQuiz = async (quizId: string) => {
+    try {
+      await quizzesClient.publishQuiz(quizId);
+      if (cid) {
+        const updated = await quizzesClient.findQuizzesForCourse(cid);
+        dispatch(setQuizzes(updated));
+      }
+    } catch (error) {
+      console.error("Error publishing quiz:", error);
+    }
+  };
+
   return (
     <Container className="ms-3" id="wd-quizzes">
       <div className="d-flex justify-content-between mb-4">
@@ -186,7 +198,7 @@ export default function Quizzes() {
                     </div>
                   </div>
                   {isFaculty && (
-                    <QuizControls onDelete={() => handleDeleteQuiz(quiz._id)} />
+                    <QuizControls onDelete={() => handleDeleteQuiz(quiz._id)} onPublish={() => handlePublishQuiz(quiz._id)} published={quiz.published} />
                   )}
                 </div>
               </li>

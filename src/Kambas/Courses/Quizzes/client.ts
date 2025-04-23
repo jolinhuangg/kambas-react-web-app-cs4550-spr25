@@ -32,3 +32,8 @@ export const findQuizById = async (quizId: string) => {
     const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
     return response.data;
 }
+
+export const publishQuiz = async (quizId: string) => {
+    const response = await axiosWithCredentials.patch(`${QUIZZES_API}/${quizId}`);
+    return response.data;
+}
