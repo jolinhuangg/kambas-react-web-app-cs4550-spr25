@@ -18,7 +18,6 @@ import QuizControls from "./QuizControls";
 
 export default function Quizzes() {
   const { cid } = useParams();
-  const { qid } = useParams();
   const dispatch = useDispatch();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -53,16 +52,20 @@ export default function Quizzes() {
     const fetchQuizzes = async () => {
       if (cid) {
         try {
-          const fetched = await quizzesClient.findQuizzesForCourse(cid);
-
-          dispatch(setQuizzes(fetched)); //reducer
+          let fetched;
+          if (isFaculty) {
+            fetched = await quizzesClient.findQuizzesForCourse(cid);
+          } else {
+            fetched = await quizzesClient.findPublishedQuizzesForCourse(cid);
+          }
+          dispatch(setQuizzes(fetched));
         } catch (error) {
           console.error("Error fetching quizzes:", error);
         }
       }
     };
     fetchQuizzes();
-  }, [cid, dispatch]);
+  }, [cid, dispatch, currentUser]);
 
   const handleDeleteQuiz = async (quizId: string) => {
     try {
