@@ -6,6 +6,7 @@ interface Quiz {
         title: { type: String, default: "New Quiz" };
         description : String;
         course: String;
+        quiztype: {type: String, default: "Graded Quiz"}; 
         assignmentgroup: {type: String, default: "Quizzes"}; //change to enum
         shuffle: {type: Boolean, default: true};
         timelimit: {type: Number, default: 20};
@@ -47,6 +48,7 @@ const quizSlice = createSlice({
         title: quiz.title,
         description: quiz.description,
         course: quiz.course,
+        quiztype: quiz.quiztype,
         assignmentgroup: quiz.assignmentgroup,
         shuffle: quiz.shuffle,
         timelimit: quiz.timelimit,
