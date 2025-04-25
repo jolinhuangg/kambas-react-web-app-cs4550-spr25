@@ -5,7 +5,6 @@ import {
   InputGroup,
   Row,
   Col,
-  Button,
 } from "react-bootstrap";
 import { useParams, NavLink, useNavigate } from "react-router";
 import { useState } from "react";
@@ -382,15 +381,15 @@ export default function QuestionsEditor() {
                   />
                 </Form.Group>
                 <Form.Label>Answers:</Form.Label>
-                {q.answers.map((ans, ai) => (
-                  <InputGroup key={ai} className="mb-2">
+                {q.answers.map((answer, aIndex) => (
+                  <InputGroup key={aIndex} className="mb-2">
                     <FormControl
-                      value={ans}
+                      value={answer}
                       onChange={(e) =>
                         setQuestions((prev) => {
                           const next = [...prev];
                           const ansArr = [...next[idx].answers];
-                          ansArr[ai] = e.target.value;
+                          ansArr[aIndex] = e.target.value;
                           next[idx] = { ...next[idx], answers: ansArr };
                           return next;
                         })

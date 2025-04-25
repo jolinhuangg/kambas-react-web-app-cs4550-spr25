@@ -24,7 +24,7 @@ export default function Quizzes() {
   const isFaculty = currentUser?.role === "FACULTY";
   const navigate = useNavigate();
 
-  const [deleteQuizId, setDeleteQuizId] = useState<string | null>(null);
+  const [, setDeleteQuizId] = useState<string | null>(null);
 
   function formatDateNative(dateString: string): string {
     const date = new Date(dateString);
@@ -143,16 +143,16 @@ export default function Quizzes() {
                   <div className="ms-4 flex-grow-1">
                     <a
                       href={
-                      isFaculty
-                        ? `#/Kambas/Courses/${quiz.course}/quizzes/${quiz._id}/`
-                        : `#/kambas/courses/${quiz.course}/quizzes/${quiz._id}/preview`
+                        isFaculty
+                          ? `#/Kambas/Courses/${quiz.course}/quizzes/${quiz._id}/`
+                          : `#/kambas/courses/${quiz.course}/quizzes/${quiz._id}/preview`
                       }
                       className="wd-quiz-link"
                       style={{
-                      color: "black",
-                      textDecoration: "none",
-                      cursor: "pointer",
-                      fontWeight: 500,
+                        color: "black",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        fontWeight: 500,
                       }}
                     >
                       {quiz.title}
