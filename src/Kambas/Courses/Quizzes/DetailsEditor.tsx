@@ -145,7 +145,7 @@ export default function DetailsEditor() {
       {/** Details & Questions tabs */}
       <div style={{ display: "flex", borderBottom: ".5px solid #ccc" }}>
         <NavLink
-          to={`/Kambas/Courses/${cid}/Quizzes/${qid}/edit/details`}
+          to={`/Kambas/Courses/${cid}/Quizzes/${qid}/edit`}
           style={activeTabStyle}
         >
           Details
