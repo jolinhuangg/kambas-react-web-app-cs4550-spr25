@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BiPlus } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
-import Question from "./reducer";
+import type { Question } from "./reducer";
 import { updateQuiz } from "./reducer";
 import * as quizzesClient from "./client";
 
