@@ -183,7 +183,7 @@ export default function DetailsEditor() {
 
         <Form.Group as={Row} className="mb-3 align-items-center">
           <Form.Label column sm={3} className="text-end">
-            {quiz.quiztype}
+            Quiz Type
           </Form.Label>
           <Col sm={4}>
           <Form.Select
@@ -206,7 +206,7 @@ export default function DetailsEditor() {
 
         <Form.Group as={Row} className="mb-3 align-items-center">
           <Form.Label column sm={3} className="text-end">
-            {quiz.assignmentgroup}
+            Assignment Group
           </Form.Label>
           <Col sm={4}>
             <Form.Select
@@ -228,12 +228,43 @@ export default function DetailsEditor() {
         </Form.Group>
 
         <Form.Group as={Row} className="mb-3 align-items-center">
-          <Form.Label column sm={3} className="text-end"></Form.Label>
+          <Form.Label column sm={3} className="text-end">
+            Points
+          </Form.Label>
           <Col sm={4}>
-            <Form.Label column sm={3} className="text-end fw-bold">
+          <Form.Control
+                      type="number"
+                      style={{ width: "70px" }}
+                      value={quiz.points}
+                      onChange={(e) =>
+                        setQuiz({
+                          ...quiz,  
+                          points: parseInt(e.target.value, 10) || 0,
+                        })
+                      }
+                    />
+
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-3 align-items-center">
+          <Form.Label column sm={3} className="text-end"></Form.Label>
+          <Col sm={6}>
+            <Form.Label column sm={2} className="text-end fw-bold">
               Options
             </Form.Label>
+
+            
             <div id="online-entry-options">
+              <Form.Check
+                type="checkbox"
+                label="Show Correct Answers"
+                checked={quiz.shuffle}
+                onChange={(e) =>
+                  setQuiz({ ...quiz, shuffle: e.target.checked })
+                }
+              />
+              
               <Form.Check
                 type="checkbox"
                 label="Shuffle Answers"
@@ -242,7 +273,7 @@ export default function DetailsEditor() {
                   setQuiz({ ...quiz, shuffle: e.target.checked })
                 }
               />
-
+              
               <div className="d-flex align-items-center gap-2 mb-2">
                 <Form.Check
                   type="checkbox"
@@ -276,22 +307,117 @@ export default function DetailsEditor() {
                   </>
                 )}
               </div>
+
+              <div className="d-flex align-items-center gap-2 mb-2">
+                <Form.Check
+                    type="checkbox"
+                    label="AccessCode"
+                    checked={quiz.accesscode !== ""}
+                    onChange={(e) =>
+                    setQuiz({
+                        ...quiz,
+                        accesscode: e.target.checked
+                        ? quiz.accesscode === ""
+                            ? " "
+                            : quiz.accesscode
+                        : "",
+                    })
+                    }
+                />
+                {quiz.accesscode !== "" && (
+                    <>
+                    <Form.Control
+                        type="text"
+                        style={{ width: "150px" }}
+                        value={quiz.accesscode}
+                        onChange={(e) =>
+                        setQuiz({
+                            ...quiz,
+                            accesscode: e.target.value,
+                        })
+                        }
+                    />
+                    </>
+                )}
+                </div>
+
+                
+
+
+
             </div>
           </Col>
 
           <Form.Group as={Row} className="mb-3 align-items-start">
             <Form.Label column sm={3} className="text-end"></Form.Label>
             <Col sm={9}>
-              <Form.Group className="border p-2 rounded">
+
+
+
+            <div className="d-flex align-items-center gap-2 mb-2">
                 <Form.Check
                   type="checkbox"
-                  checked={quiz.multipleattempts}
                   label="Allow Multiple Attempts"
+                  checked={quiz.multipleattempts !== 1}
                   onChange={(e) =>
-                    setQuiz({ ...quiz, multipleattempts: e.target.checked })
+                    setQuiz({
+                      ...quiz,
+                      multipleattempts: e.target.checked
+                        ? quiz.multipleattempts === 1
+                          ? 3
+                          : quiz.multipleattempts
+                        : 1,
+                    })
                   }
                 />
-              </Form.Group>
+                {quiz.multipleattempts !== 1 && (
+                  <>
+                    <Form.Control
+                      type="number"
+                      style={{ width: "60px" }}
+                      value={quiz.multipleattempts}
+                      onChange={(e) =>
+                        setQuiz({
+                          ...quiz,  
+                          multipleattempts: parseInt(e.target.value, 10) || 0,
+                        })
+                      }
+                    />
+                    <span>Attempts</span>
+                  </>
+                )}
+              </div>
+
+                <Form.Check
+                  type="checkbox"
+                  checked={quiz.onequestion}
+                  label="One Question at a Time"
+                  onChange={(e) =>
+                    setQuiz({ ...quiz, onequestion: e.target.checked })
+                  }
+                />
+
+
+                <Form.Check
+                  type="checkbox"
+                  checked={quiz.webcam}
+                  label="Webcam Required"
+                  onChange={(e) =>
+                    setQuiz({ ...quiz, webcam: e.target.checked })
+                  }
+                />
+
+                <Form.Check
+                  type="checkbox"
+                  checked={quiz.lockquestions}
+                  label="Lock Questions After Answering"
+                  onChange={(e) =>
+                    setQuiz({ ...quiz, lockquestions: e.target.checked })
+                  }
+                />
+
+
+    
             </Col>
           </Form.Group>
 
