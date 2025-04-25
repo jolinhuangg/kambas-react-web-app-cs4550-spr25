@@ -78,7 +78,10 @@ export default function QuizDetails() {
     <Container className="mt-4">
       <div className="container d-flex justify-content-center gap-2">
         {/** Preview Button -> Quiz Preview Screen */}
-        <button className="btn btn-light btn-outline-secondary">Preview</button>
+        <button className="btn btn-light btn-outline-secondary"
+        onClick={() => navigate(`/Kambas/Courses/${cid}/Quizzes/${qid}/preview`)}>
+        Preview</button>
+        
 
         {/** Edit Button -> Quiz Editor Screen */}
         <button
@@ -92,7 +95,7 @@ export default function QuizDetails() {
 
       {/** Quiz Properties */}
       <div className="py-3 px-4 mt-2" style={{ border: "2px dotted gray" }}>
-        <h2 className="mb-4">Quiz Name</h2>
+        <h2 className="mb-4">{quiz.title}</h2>
         <div className="d-flex flex-column gap-1 mb-4">
           {quizFields.map((field, index) => (
             <Row key={index}>
