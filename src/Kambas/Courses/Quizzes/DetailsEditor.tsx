@@ -103,7 +103,7 @@ export default function DetailsEditor() {
         });
         dispatch(updateQuiz(updatedQuiz));
       }
-      navigate(`/Kambas/Courses/${cid}/Quizzes`);
+      navigate(`/Kambas/Courses/${cid}/Quizzes/${qid}`);
     } catch (error) {
       console.error("Error saving quiz:", error);
     }
@@ -458,7 +458,7 @@ export default function DetailsEditor() {
 
           <div className="d-flex justify-content-end">
             <button
-              onClick={() => navigate(`/Kambas/Courses/${cid}/Quizzes`)}
+              onClick={() => navigate(`/Kambas/Courses/${cid}/Quizzes/${qid}`)}
               className="btn btn-secondary me-2"
               type="button"
             >

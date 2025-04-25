@@ -79,11 +79,19 @@ export default function QuizPreview() {
     );
   }
 
+  if (!quiz.questions || quiz.questions.length === 0) {
+    return (
+      <Container className="mt-4">
+        <p>No questions available for this quiz.</p>
+      </Container>
+    );
+  }
+
   const QuestionBox = ({ q, index }: { q: Question; index: number }) => (
-    <div className="border " id={`question-${index}`}>
+    <div className="border border-dark" id={`question-${index}`}>
       
-      <div className="p-3 bg-light border-bottom">
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="p-3 bg-secondary border-bottom border-dark">
+      <div className="d-flex justify-content-between">
         <h5>Question {index + 1}</h5>
         <div>{q.points ?? 0} pts</div>
       </div>
