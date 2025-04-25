@@ -186,7 +186,7 @@ export default function DetailsEditor() {
             Quiz Type
           </Form.Label>
           <Col sm={4}>
-          <Form.Select
+            <Form.Select
               value={quiz.quiztype}
               onChange={(e) =>
                 setQuiz((old) => ({
@@ -195,7 +195,12 @@ export default function DetailsEditor() {
                 }))
               }
             >
-              {["Graded Quiz", "Practice Quiz", "Graded Survey", "Ungraded Survey"].map((g) => (
+              {[
+                "Graded Quiz",
+                "Practice Quiz",
+                "Graded Survey",
+                "Ungraded Survey",
+              ].map((g) => (
                 <option key={g} value={g}>
                   {g}
                 </option>
@@ -232,18 +237,17 @@ export default function DetailsEditor() {
             Points
           </Form.Label>
           <Col sm={4}>
-          <Form.Control
-                      type="number"
-                      style={{ width: "70px" }}
-                      value={quiz.points}
-                      onChange={(e) =>
-                        setQuiz({
-                          ...quiz,  
-                          points: parseInt(e.target.value, 10) || 0,
-                        })
-                      }
-                    />
-
+            <Form.Control
+              type="number"
+              style={{ width: "70px" }}
+              value={quiz.points}
+              onChange={(e) =>
+                setQuiz({
+                  ...quiz,
+                  points: parseInt(e.target.value, 10) || 0,
+                })
+              }
+            />
           </Col>
         </Form.Group>
 
@@ -254,7 +258,6 @@ export default function DetailsEditor() {
               Options
             </Form.Label>
 
-            
             <div id="online-entry-options">
               <Form.Check
                 type="checkbox"
@@ -264,7 +267,7 @@ export default function DetailsEditor() {
                   setQuiz({ ...quiz, shuffle: e.target.checked })
                 }
               />
-              
+
               <Form.Check
                 type="checkbox"
                 label="Shuffle Answers"
@@ -273,7 +276,7 @@ export default function DetailsEditor() {
                   setQuiz({ ...quiz, shuffle: e.target.checked })
                 }
               />
-              
+
               <div className="d-flex align-items-center gap-2 mb-2">
                 <Form.Check
                   type="checkbox"
@@ -310,76 +313,64 @@ export default function DetailsEditor() {
 
               <div className="d-flex align-items-center gap-2 mb-2">
                 <Form.Check
-                    type="checkbox"
-                    label="AccessCode"
-                    checked={quiz.accesscode !== ""}
-                    onChange={(e) =>
+                  type="checkbox"
+                  label="AccessCode"
+                  checked={quiz.accesscode !== ""}
+                  onChange={(e) =>
                     setQuiz({
-                        ...quiz,
-                        accesscode: e.target.checked
+                      ...quiz,
+                      accesscode: e.target.checked
                         ? quiz.accesscode === ""
-                            ? " "
-                            : quiz.accesscode
+                          ? " "
+                          : quiz.accesscode
                         : "",
                     })
-                    }
+                  }
                 />
                 {quiz.accesscode !== "" && (
-                    <>
+                  <>
                     <Form.Control
-                        type="text"
-                        style={{ width: "150px" }}
-                        value={quiz.accesscode}
-                        onChange={(e) =>
+                      type="text"
+                      style={{ width: "150px" }}
+                      value={quiz.accesscode}
+                      onChange={(e) =>
                         setQuiz({
-                            ...quiz,
-                            accesscode: e.target.value,
+                          ...quiz,
+                          accesscode: e.target.value,
                         })
-                        }
+                      }
                     />
-                    </>
+                  </>
                 )}
-                </div>
-
-                
-
-
-
+              </div>
             </div>
           </Col>
 
           <Form.Group as={Row} className="mb-3 align-items-start">
             <Form.Label column sm={3} className="text-end"></Form.Label>
             <Col sm={9}>
-
-
-
-            <div className="d-flex align-items-center gap-2 mb-2">
+              <div className="d-flex align-items-center gap-2 mb-2">
                 <Form.Check
                   type="checkbox"
                   label="Allow Multiple Attempts"
-                  checked={quiz.multipleattempts !== 1}
+                  checked={quiz.multipleattempts}
                   onChange={(e) =>
                     setQuiz({
                       ...quiz,
-                      multipleattempts: e.target.checked
-                        ? quiz.multipleattempts === 1
-                          ? 3
-                          : quiz.multipleattempts
-                        : 1,
+                      multipleattempts: e.target.checked,
                     })
                   }
                 />
-                {quiz.multipleattempts !== 1 && (
+                {quiz.multipleattempts && (
                   <>
                     <Form.Control
                       type="number"
                       style={{ width: "60px" }}
-                      value={quiz.multipleattempts}
+                      value={quiz.maxattempts}
                       onChange={(e) =>
                         setQuiz({
-                          ...quiz,  
-                          multipleattempts: parseInt(e.target.value, 10) || 0,
+                          ...quiz,
+                          maxattempts: parseInt(e.target.value, 10) || 0,
                         })
                       }
                     />
@@ -388,36 +379,30 @@ export default function DetailsEditor() {
                 )}
               </div>
 
-                <Form.Check
-                  type="checkbox"
-                  checked={quiz.onequestion}
-                  label="One Question at a Time"
-                  onChange={(e) =>
-                    setQuiz({ ...quiz, onequestion: e.target.checked })
-                  }
-                />
+              <Form.Check
+                type="checkbox"
+                checked={quiz.onequestion}
+                label="One Question at a Time"
+                onChange={(e) =>
+                  setQuiz({ ...quiz, onequestion: e.target.checked })
+                }
+              />
 
+              <Form.Check
+                type="checkbox"
+                checked={quiz.webcam}
+                label="Webcam Required"
+                onChange={(e) => setQuiz({ ...quiz, webcam: e.target.checked })}
+              />
 
-                <Form.Check
-                  type="checkbox"
-                  checked={quiz.webcam}
-                  label="Webcam Required"
-                  onChange={(e) =>
-                    setQuiz({ ...quiz, webcam: e.target.checked })
-                  }
-                />
-
-                <Form.Check
-                  type="checkbox"
-                  checked={quiz.lockquestions}
-                  label="Lock Questions After Answering"
-                  onChange={(e) =>
-                    setQuiz({ ...quiz, lockquestions: e.target.checked })
-                  }
-                />
-
-
-    
+              <Form.Check
+                type="checkbox"
+                checked={quiz.lockquestions}
+                label="Lock Questions After Answering"
+                onChange={(e) =>
+                  setQuiz({ ...quiz, lockquestions: e.target.checked })
+                }
+              />
             </Col>
           </Form.Group>
 
