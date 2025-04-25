@@ -2,9 +2,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Card, FormControl } from "react-bootstrap";
 import EnrollmentOptions from "./DashboardTools/EnrollmentOptions";
+import * as db from "./Database";
 
 export default function Dashboard({
-  courses,
+
   course,
   setCourse,
   addNewCourse,
@@ -26,7 +27,14 @@ export default function Dashboard({
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
-  const visibleCourses = courses;
+  const courses = db.courses;
+  const visibleCourses = courses.filter((course) =>
+  db.enrollments.some(
+    (enrollment) =>
+      enrollment.user === currentUser._id && enrollment.course === course._id
+  )
+);
+  
 
   return (
     <div id="wd-dashboard">
