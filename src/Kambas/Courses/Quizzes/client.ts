@@ -42,3 +42,8 @@ export const publishQuiz = async (quizId: string) => {
     const response = await axiosWithCredentials.patch(`${QUIZZES_API}/${quizId}`);
     return response.data;
 }
+
+export const updateQuestionInQuiz = async (quizId: string, questionId: string, question: any) => {
+    const response = await axiosWithCredentials.put(`${QUIZZES_API}/${quizId}/questions/${questionId}`, question);
+    return response.data;
+}
