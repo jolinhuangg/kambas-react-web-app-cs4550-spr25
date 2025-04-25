@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Question {
   id: { type: String; required: true };
@@ -49,10 +49,10 @@ const quizSlice = createSlice({
   name: "quizzes",
   initialState,
   reducers: {
-    setQuizzes: (state: QuizState, action) => {
-      state.quizzes = action.payload as Quiz[];
+    setQuizzes: (state: QuizState, action: PayloadAction<Quiz[]>) => {
+      state.quizzes = action.payload;
     },
-    addQuiz: (state: QuizState, { payload: quiz }) => {
+    addQuiz: (state: QuizState, { payload: quiz }: PayloadAction<Quiz>) => {
       const newQuiz = {
         _id: uuidv4(),
         title: quiz.title,
@@ -80,10 +80,10 @@ const quizSlice = createSlice({
       } as Quiz;
       state.quizzes = [...state.quizzes, newQuiz];
     },
-    deleteQuiz: (state: QuizState, { payload: quizId }) => {
+    deleteQuiz: (state: QuizState, { payload: quizId }: PayloadAction<string>) => {
       state.quizzes = state.quizzes.filter((q) => q._id !== quizId);
     },
-    updateQuiz: (state: QuizState, { payload: quiz }) => {
+    updateQuiz: (state: QuizState, { payload: quiz }: PayloadAction<Quiz>) => {
       state.quizzes = state.quizzes.map((q) => (q._id === quiz._id ? quiz : q));
     },
   },

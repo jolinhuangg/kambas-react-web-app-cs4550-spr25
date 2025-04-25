@@ -271,7 +271,7 @@ export default function QuestionsEditor() {
                 </Form.Group>
 
                 <Form.Label>Answers: </Form.Label>
-                {q.answers?.map((answer, aIndex) => (
+                {q.answers?.map((answer: string, aIndex: number) => (
                   <InputGroup key={aIndex} className="mb-2">
                     <InputGroup.Radio
                       checked={q.correctAnswer === answer}
@@ -381,7 +381,7 @@ export default function QuestionsEditor() {
                   />
                 </Form.Group>
                 <Form.Label>Answers:</Form.Label>
-                {q.answers.map((answer, aIndex) => (
+                {q.answers.map((answer: string, aIndex: number) => (
                   <InputGroup key={aIndex} className="mb-2">
                     <FormControl
                       value={answer}
