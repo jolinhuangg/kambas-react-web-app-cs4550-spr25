@@ -107,7 +107,7 @@ export default function Quizzes() {
             <Button
               variant="danger"
               id="wd-add-quiz"
-              onClick={() => navigate(`/Kambas/Courses/${cid}/quizzes/new`)}
+              onClick={() => navigate(`/Kambas/Courses/${cid}/quizzes/new/edit`)}
             >
               + Quiz
             </Button>
