@@ -107,7 +107,9 @@ export default function Quizzes() {
             <Button
               variant="danger"
               id="wd-add-quiz"
-              onClick={() => navigate(`/Kambas/Courses/${cid}/quizzes/new/edit`)}
+              onClick={() =>
+                navigate(`/Kambas/Courses/${cid}/quizzes/new/edit`)
+              }
             >
               + Quiz
             </Button>
@@ -195,8 +197,12 @@ export default function Quizzes() {
                       </span>
                       <span className="text-muted"> | </span>
                       <span className="text-muted fs-6">
-                        {quiz.questioncount}{" "}
-                        {quiz.questioncount <= 1 ? "Question" : "Questions"}
+                        <span className="text-muted fs-6">
+                          {quiz.questions?.length ?? 0}{" "}
+                          {(quiz.questions?.length ?? 0) === 1
+                            ? "Question"
+                            : "Questions"}
+                        </span>
                       </span>
                     </div>
                   </div>

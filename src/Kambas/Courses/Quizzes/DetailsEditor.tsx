@@ -41,12 +41,12 @@ export default function DetailsEditor() {
     lockquestions: existingQuiz?.lockquestions || false,
     duedate: existingQuiz?.duedate || "",
     points: existingQuiz?.points || 100,
-    questioncount: existingQuiz?.questioncount || 1,
     taken: existingQuiz?.taken || false,
     score: existingQuiz?.score || 0,
     published: existingQuiz?.published || false,
     availabledate: existingQuiz?.availabledate || "",
     untildate: existingQuiz?.untildate || "",
+    questions: existingQuiz?.questions || [],
   });
 
   const handleSave = async () => {
@@ -68,12 +68,12 @@ export default function DetailsEditor() {
           lockquestions: quiz.lockquestions,
           duedate: quiz.duedate,
           points: quiz.points,
-          questioncount: quiz.questioncount,
           taken: quiz.taken,
           score: quiz.score,
           published: quiz.published,
           availabledate: quiz.availabledate,
           untildate: quiz.untildate,
+          quiz: quiz.questions,
         });
         dispatch(addQuiz(newQuiz));
       } else {
@@ -94,12 +94,12 @@ export default function DetailsEditor() {
           lockquestions: quiz.lockquestions,
           duedate: quiz.duedate,
           points: quiz.points,
-          questioncount: quiz.questioncount,
           taken: quiz.taken,
           score: quiz.score,
           published: quiz.published,
           availabledate: quiz.availabledate,
           untildate: quiz.untildate,
+          quiz: quiz.questions,
         });
         dispatch(updateQuiz(updatedQuiz));
       }
