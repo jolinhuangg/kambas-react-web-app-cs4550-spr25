@@ -142,13 +142,17 @@ export default function Quizzes() {
                   </div>
                   <div className="ms-4 flex-grow-1">
                     <a
-                      href={`#/Kambas/Courses/${quiz.course}/quizzes/${quiz._id}/`}
+                      href={
+                      isFaculty
+                        ? `#/Kambas/Courses/${quiz.course}/quizzes/${quiz._id}/`
+                        : `#/kambas/courses/${quiz.course}/quizzes/${quiz._id}/preview`
+                      }
                       className="wd-quiz-link"
                       style={{
-                        color: "black",
-                        textDecoration: "none",
-                        cursor: "pointer",
-                        fontWeight: 500,
+                      color: "black",
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      fontWeight: 500,
                       }}
                     >
                       {quiz.title}

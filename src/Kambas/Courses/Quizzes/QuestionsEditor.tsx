@@ -5,6 +5,7 @@ import {
   InputGroup,
   Row,
   Col,
+  Button,
 } from "react-bootstrap";
 import { useParams, NavLink, useNavigate } from "react-router";
 import { useState } from "react";
@@ -139,7 +140,6 @@ export default function QuestionsEditor() {
 
       const refreshed = await quizzesClient.findQuizById(qid);
       dispatch(updateQuiz(refreshed));
-
     } catch (err) {
       console.error("Error saving question:", err);
     }
@@ -253,12 +253,8 @@ export default function QuestionsEditor() {
               </Col>
             </Row>
 
-            <hr />
-
-            <p> Enter your question</p>
-
-            <Row className="mb-2">
-              <Col>
+            {q.type === "Multiple Choice" && (
+              <>
                 <Form.Group>
                   <Form.Label>Question:</Form.Label>
                   <Form.Control
@@ -274,63 +270,156 @@ export default function QuestionsEditor() {
                     }
                   />
                 </Form.Group>
-              </Col>
-            </Row>
 
-            <Row className="mb-2">
-              <Col>
-                <Form.Group>
-                  <Form.Label>Answers: </Form.Label>
-                  {q.answers?.map((answer, aIndex) => (
-                    <InputGroup key={aIndex} className="mb-2">
-                      <InputGroup.Radio
-                        checked={q.correctAnswer === answer}
-                        onChange={() =>
-                          setQuestions((prev) => {
-                            const next = [...prev];
-                            next[idx] = { ...next[idx], correctAnswer: answer };
-                            return next;
-                          })
-                        }
-                      />
-                      <FormControl
-                        value={answer}
-                        onChange={(e) =>
-                          setQuestions((prev) => {
-                            const next = [...prev];
-                            const answers = [...next[idx].answers];
-                            answers[aIndex] = e.target.value;
-                            next[idx] = { ...next[idx], answers };
-                            return next;
-                          })
-                        }
-                      />
-                    </InputGroup>
-                  ))}
+                <Form.Label>Answers: </Form.Label>
+                {q.answers?.map((answer, aIndex) => (
+                  <InputGroup key={aIndex} className="mb-2">
+                    <InputGroup.Radio
+                      checked={q.correctAnswer === answer}
+                      onChange={() =>
+                        setQuestions((prev) => {
+                          const next = [...prev];
+                          next[idx] = { ...next[idx], correctAnswer: answer };
+                          return next;
+                        })
+                      }
+                    />
+                    <FormControl
+                      value={answer}
+                      onChange={(e) =>
+                        setQuestions((prev) => {
+                          const next = [...prev];
+                          const answers = [...next[idx].answers];
+                          answers[aIndex] = e.target.value;
+                          next[idx] = { ...next[idx], answers };
+                          return next;
+                        })
+                      }
+                    />
+                  </InputGroup>
+                ))}
+
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    className="btn p-0 border-0 text-danger"
+                    style={{ background: "none" }}
+                    onClick={() =>
+                      setQuestions((prev) => {
+                        const next = [...prev];
+                        next[idx] = {
+                          ...next[idx],
+                          answers: [...next[idx].answers, ""],
+                        };
+                        return next;
+                      })
+                    }
+                  >
+                    <BiPlus />
+                    Add Another Answer
+                  </button>
+                </div>
+              </>
+            )}
+
+            {q.type === "True or False" && (
+              <Form.Group>
+                <Form.Label>Question:</Form.Label>
+                <Form.Control
+                  type="text"
+                  style={{ height: "100px" }}
+                  value={q.question}
+                  onChange={(e) =>
+                    setQuestions((prev) => {
+                      const next = [...prev];
+                      next[idx] = { ...next[idx], question: e.target.value };
+                      return next;
+                    })
+                  }
+                />
+                <Form.Check
+                  type="radio"
+                  label="True"
+                  name={`tf-${q.id}`}
+                  checked={q.correctAnswer === "True"}
+                  onChange={() =>
+                    setQuestions((prev) => {
+                      const next = [...prev];
+                      next[idx] = { ...next[idx], correctAnswer: "True" };
+                      return next;
+                    })
+                  }
+                />
+                <Form.Check
+                  type="radio"
+                  label="False"
+                  name={`tf-${q.id}`}
+                  checked={q.correctAnswer === "False"}
+                  onChange={() =>
+                    setQuestions((prev) => {
+                      const next = [...prev];
+                      next[idx] = { ...next[idx], correctAnswer: "False" };
+                      return next;
+                    })
+                  }
+                />
+              </Form.Group>
+            )}
+
+            {q.type === "Fill in the Blank" && (
+              <>
+                <Form.Group className="mb-3">
+                  <Form.Label>Question:</Form.Label>
+                  <FormControl
+                    value={q.question}
+                    onChange={(e) =>
+                      setQuestions((prev) => {
+                        const next = [...prev];
+                        next[idx] = { ...next[idx], question: e.target.value };
+                        return next;
+                      })
+                    }
+                  />
                 </Form.Group>
-              </Col>
-            </Row>
-
-            <div className="d-flex justify-content-end">
-              <button
-                type="button"
-                className="btn p-0 border-0 text-danger"
-                style={{ background: "none" }}
-                onClick={() =>
-                  setQuestions((prev) => {
-                    const next = [...prev];
-                    next[idx] = {
-                      ...next[idx],
-                      answers: [...next[idx].answers, ""],
-                    };
-                    return next;
-                  })
-                }
-              >
-                <BiPlus />
-                Add Another Answer
-              </button>
-            </div>
+                <Form.Label>Answers:</Form.Label>
+                {q.answers.map((ans, ai) => (
+                  <InputGroup key={ai} className="mb-2">
+                    <FormControl
+                      value={ans}
+                      onChange={(e) =>
+                        setQuestions((prev) => {
+                          const next = [...prev];
+                          const ansArr = [...next[idx].answers];
+                          ansArr[ai] = e.target.value;
+                          next[idx] = { ...next[idx], answers: ansArr };
+                          return next;
+                        })
+                      }
+                    />
+                  </InputGroup>
+                ))}
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    className="btn p-0 border-0 text-danger"
+                    style={{ background: "none" }}
+                    onClick={() =>
+                      setQuestions((prev) => {
+                        const next = [...prev];
+                        next[idx] = {
+                          ...next[idx],
+                          answers: [...next[idx].answers, ""],
+                        };
+                        return next;
+                      })
+                    }
+                  >
+                    <BiPlus />
+                    Add Another Answer
+                  </button>
+                </div>
+              </>
+            )}
 
             <div className="d-flex justify-content-start">
               <button
@@ -341,7 +430,9 @@ export default function QuestionsEditor() {
                 Cancel
               </button>
               <button
-                onClick={(e) => { void handleUpdateQuestion(idx); }}
+                onClick={() => {
+                  void handleUpdateQuestion(idx);
+                }}
                 type="button"
                 className="btn btn-danger"
               >
